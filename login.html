@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+  <title>RevolTech — Sign In</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            graphite:  '#0b0f1a',
+            surface0:  '#111827',
+            surface1:  '#1a2332',
+            surface2:  '#1f2937',
+            surface3:  '#2d3748',
+            surface4:  '#374151',
+            emerald:   { DEFAULT:'#059669', dark:'#064e3b', mid:'#10b981', light:'#34d399', glow:'rgba(16,185,129,.18)' },
+            gold:      { DEFAULT:'#d97706', mid:'#f59e0b', light:'#fbbf24' },
+          },
+          fontFamily: { display:['Plus Jakarta Sans','sans-serif'], body:['Inter','sans-serif'] },
+        }
+      }
+    }
+  </script>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&family=Inter:wght@400;500;600&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="base.css"/>
+  <style>
+    .gradient-text { background:linear-gradient(135deg,#10b981,#34d399); -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text; }
+    .brand-bg { background:linear-gradient(135deg,#022c22 0%,#064e3b 50%,#0b0f1a 100%); }
+    .tab-active { color:#fff; background:rgba(255,255,255,.07); border-color:rgba(255,255,255,.12); }
+    .tab-inactive { color:#64748b; background:transparent; border-color:transparent; }
+    .str-weak   { background-color:#ef4444; }
+    .str-fair   { background-color:#f59e0b; }
+    .str-good   { background-color:#10b981; }
+    .str-strong { background-color:#34d399; }
+  </style>
+</head>
+<body class="bg-graphite text-slate-200 min-h-screen">
+<div class="flex min-h-screen">
+
+  <!-- ══ LEFT BRAND PANEL ══ -->
+  <div class="hidden lg:flex flex-col justify-between w-[520px] flex-shrink-0 brand-bg px-12 py-12 relative overflow-hidden">
+    <div class="absolute inset-0 opacity-30" style="background:radial-gradient(ellipse 80% 60% at 50% 30%, rgba(16,185,129,.3) 0%, transparent 60%)"></div>
+    <div class="absolute bottom-0 right-0 w-[400px] h-[400px] rounded-full bg-gradient-radial from-emerald/15 to-transparent filter blur-[80px] pointer-events-none animate-mesh"></div>
+    <div class="relative z-10">
+      <a href="index.html" class="flex items-center gap-3 mb-16">
+        <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-emerald to-emerald-dark flex items-center justify-center text-xl shadow-[0_0_20px_rgba(16,185,129,.4)]">♻️</div>
+        <span class="font-display font-black text-xl text-white">Revol<span class="text-emerald-mid">Tech</span></span>
+      </a>
+      <div class="mb-10">
+        <h1 class="font-display font-black text-4xl text-white leading-tight mb-4">Your old electronics<br/>deserve a <span class="gradient-text">better future.</span></h1>
+        <p class="text-slate-400 text-base leading-relaxed">Join 24,000+ users who turned dead devices into real money — while helping the planet.</p>
+      </div>
+      <div class="space-y-4 mb-12">
+        <div class="flex items-start gap-4">
+          <div class="w-9 h-9 rounded-xl flex-shrink-0 bg-emerald-glow border border-emerald-mid/30 flex items-center justify-center text-base">💰</div>
+          <div><div class="text-sm font-semibold text-white mb-0.5">Fair market valuations</div><div class="text-xs text-slate-400">AI-backed pricing based on live market data</div></div>
+        </div>
+        <div class="flex items-start gap-4">
+          <div class="w-9 h-9 rounded-xl flex-shrink-0 bg-emerald-glow border border-emerald-mid/30 flex items-center justify-center text-base">🚚</div>
+          <div><div class="text-sm font-semibold text-white mb-0.5">Free doorstep pickup</div><div class="text-xs text-slate-400">Anywhere in Bangladesh, next-day guaranteed</div></div>
+        </div>
+        <div class="flex items-start gap-4">
+          <div class="w-9 h-9 rounded-xl flex-shrink-0 bg-emerald-glow border border-emerald-mid/30 flex items-center justify-center text-base">⚡</div>
+          <div><div class="text-sm font-semibold text-white mb-0.5">Instant bKash payout</div><div class="text-xs text-slate-400">Same day payment to your mobile wallet</div></div>
+        </div>
+        <div class="flex items-start gap-4">
+          <div class="w-9 h-9 rounded-xl flex-shrink-0 bg-emerald-glow border border-emerald-mid/30 flex items-center justify-center text-base">🔒</div>
+          <div><div class="text-sm font-semibold text-white mb-0.5">Certified data destruction</div><div class="text-xs text-slate-400">Government-compliant wipe with certificate</div></div>
+        </div>
+      </div>
+      <!-- Floating device cards -->
+      <div class="flex gap-3 flex-wrap">
+        <div class="flex items-center gap-2 bg-white/8 border border-white/12 rounded-xl px-4 py-2.5 animate-float">
+          <span class="text-lg">💻</span>
+          <div><div class="text-xs font-semibold text-white">Dell Inspiron</div><div class="text-[10px] text-emerald-light">৳42,000 offer</div></div>
+        </div>
+        <div class="flex items-center gap-2 bg-white/8 border border-white/12 rounded-xl px-4 py-2.5 animate-float-2">
+          <span class="text-lg">📱</span>
+          <div><div class="text-xs font-semibold text-white">Samsung S22</div><div class="text-[10px] text-emerald-light">৳52,000 offer</div></div>
+        </div>
+        <div class="flex items-center gap-2 bg-white/8 border border-white/12 rounded-xl px-4 py-2.5 animate-float-3">
+          <span class="text-lg">🖥️</span>
+          <div><div class="text-xs font-semibold text-white">HP Monitor</div><div class="text-[10px] text-emerald-light">৳8,500 offer</div></div>
+        </div>
+      </div>
+    </div>
+    <div class="relative z-10">
+      <div class="flex flex-wrap gap-4 text-xs text-slate-400">
+        <div class="flex items-center gap-1.5"><span class="w-4 h-4 rounded bg-emerald-glow border border-emerald-mid/30 flex items-center justify-center text-[8px] text-emerald-light">✓</span>ISO 14001 Certified</div>
+        <div class="flex items-center gap-1.5"><span class="w-4 h-4 rounded bg-emerald-glow border border-emerald-mid/30 flex items-center justify-center text-[8px] text-emerald-light">✓</span>BTRC Registered</div>
+        <div class="flex items-center gap-1.5"><span class="w-4 h-4 rounded bg-emerald-glow border border-emerald-mid/30 flex items-center justify-center text-[8px] text-emerald-light">✓</span>48,500+ Devices Processed</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══ RIGHT AUTH PANEL ══ -->
+  <div class="flex-1 flex items-center justify-center px-5 py-10 bg-graphite overflow-y-auto">
+    <div class="w-full max-w-[420px]">
+      <!-- Mobile logo only -->
+      <div class="flex lg:hidden items-center justify-center gap-3 mb-8">
+        <div class="w-9 h-9 rounded-xl bg-gradient-to-br from-emerald to-emerald-dark flex items-center justify-center text-lg">♻️</div>
+        <span class="font-display font-black text-xl text-white">Revol<span class="text-emerald-mid">Tech</span></span>
+      </div>
+
+      <div class="text-center mb-8">
+        <h2 class="font-display font-black text-3xl text-white mb-2">Welcome back 👋</h2>
+        <p class="text-sm text-slate-400">Sign in to your account or create a new one</p>
+      </div>
+
+      <!-- Tabs -->
+      <div class="flex border border-white/7 rounded-xl p-1 bg-surface1 mb-8">
+        <button id="tab-signin" onclick="switchTab('signin')" class="flex-1 py-2.5 text-sm font-semibold rounded-lg border transition-all tab-active">Sign In</button>
+        <button id="tab-register" onclick="switchTab('register')" class="flex-1 py-2.5 text-sm font-semibold rounded-lg border transition-all tab-inactive">Create Account</button>
+      </div>
+
+      <!-- ── Sign In Panel ── -->
+      <div id="panel-signin">
+        <div class="space-y-3 mb-6">
+          <button class="w-full flex items-center justify-center gap-3 bg-surface1 border border-white/10 hover:border-white/20 hover:bg-surface2 text-white text-sm font-semibold py-3 rounded-xl transition-all">
+            <span>📱</span> Continue with OTP (Phone)
+          </button>
+          <button class="w-full flex items-center justify-center gap-3 bg-surface1 border border-white/10 hover:border-white/20 hover:bg-surface2 text-white text-sm font-semibold py-3 rounded-xl transition-all">
+            <span>✉️</span> Continue with Magic Link
+          </button>
+        </div>
+        <div class="flex items-center gap-4 mb-6">
+          <div class="flex-1 h-px bg-white/7"></div>
+          <span class="text-xs text-slate-500 uppercase tracking-widest">or</span>
+          <div class="flex-1 h-px bg-white/7"></div>
+        </div>
+        <form onsubmit="handleSignIn(event)" class="space-y-4">
+          <div>
+            <label class="block text-xs font-semibold text-slate-400 mb-1.5 uppercase tracking-wide">Email Address</label>
+            <input type="email" class="inp" placeholder="you@example.com" required autocomplete="email"/>
+          </div>
+          <div>
+            <label class="block text-xs font-semibold text-slate-400 mb-1.5 uppercase tracking-wide">Password</label>
+            <div class="relative">
+              <input id="si-pass" type="password" class="inp pr-12" placeholder="Your password" required autocomplete="current-password"/>
+              <button type="button" onclick="togglePass('si-pass','si-eye')" class="absolute right-4 top-1/2 -translate-y-1/2 text-slate-500 hover:text-white transition-colors">
+                <span id="si-eye">👁</span>
+              </button>
+            </div>
+          </div>
+          <div class="flex items-center justify-between">
+            <label class="flex items-center gap-2 text-xs text-slate-400 cursor-pointer">
+              <input type="checkbox" class="accent-emerald w-3.5 h-3.5"/> Remember me
+            </label>
+            <a href="#" class="text-xs text-emerald-mid hover:text-emerald-light">Forgot password?</a>
+          </div>
+          <button type="submit" class="w-full bg-gradient-to-br from-emerald to-emerald-dark text-white font-bold py-3.5 rounded-xl hover:-translate-y-0.5 hover:shadow-[0_0_25px_rgba(16,185,129,.3)] transition-all mt-2">
+            Sign In →
+          </button>
+          <div class="flex items-center gap-4 mt-2">
+            <div class="flex-1 h-px bg-white/7"></div>
+            <span class="text-xs text-slate-500">Social</span>
+            <div class="flex-1 h-px bg-white/7"></div>
+          </div>
+          <div class="grid grid-cols-2 gap-3">
+            <button type="button" class="flex items-center justify-center gap-2 bg-surface1 border border-white/10 hover:border-white/20 text-sm text-white font-medium py-2.5 rounded-xl transition-all"><span>🌐</span>Google</button>
+            <button type="button" class="flex items-center justify-center gap-2 bg-surface1 border border-white/10 hover:border-white/20 text-sm text-white font-medium py-2.5 rounded-xl transition-all"><span>📘</span>Facebook</button>
+          </div>
+        </form>
+      </div>
+
+      <!-- ── Register Panel ── -->
+      <div id="panel-register" class="hidden">
+        <form onsubmit="handleRegister(event)" class="space-y-4">
+          <div class="grid grid-cols-2 gap-3">
+            <div>
+              <label class="block text-xs font-semibold text-slate-400 mb-1.5 uppercase tracking-wide">First Name</label>
+              <input type="text" class="inp" placeholder="Sharmin" required/>
+            </div>
+            <div>
+              <label class="block text-xs font-semibold text-slate-400 mb-1.5 uppercase tracking-wide">Last Name</label>
+              <input type="text" class="inp" placeholder="Rahman" required/>
+            </div>
+          </div>
+          <div>
+            <label class="block text-xs font-semibold text-slate-400 mb-1.5 uppercase tracking-wide">Email Address</label>
+            <input type="email" class="inp" placeholder="you@example.com" required autocomplete="email"/>
+          </div>
+          <div>
+            <label class="block text-xs font-semibold text-slate-400 mb-1.5 uppercase tracking-wide">Phone Number</label>
+            <div class="flex gap-2">
+              <div class="flex items-center gap-2 bg-surface1 border border-white/10 rounded-xl px-3 text-sm text-slate-400 flex-shrink-0">🇧🇩 +880</div>
+              <input type="tel" class="inp flex-1" placeholder="01XXXXXXXXX" required/>
+            </div>
+          </div>
+          <div>
+            <label class="block text-xs font-semibold text-slate-400 mb-1.5 uppercase tracking-wide">Password</label>
+            <div class="relative">
+              <input id="reg-pass" type="password" class="inp pr-12" placeholder="Create strong password" required autocomplete="new-password" oninput="checkStrength(this.value)"/>
+              <button type="button" onclick="togglePass('reg-pass','reg-eye')" class="absolute right-4 top-1/2 -translate-y-1/2 text-slate-500 hover:text-white transition-colors">
+                <span id="reg-eye">👁</span>
+              </button>
+            </div>
+            <div class="mt-2 flex gap-1">
+              <div id="s1" class="flex-1 h-1 rounded-full bg-surface3 transition-all"></div>
+              <div id="s2" class="flex-1 h-1 rounded-full bg-surface3 transition-all"></div>
+              <div id="s3" class="flex-1 h-1 rounded-full bg-surface3 transition-all"></div>
+              <div id="s4" class="flex-1 h-1 rounded-full bg-surface3 transition-all"></div>
+            </div>
+            <p id="str-label" class="text-[10px] text-slate-500 mt-1 h-4"></p>
+          </div>
+          <label class="flex items-start gap-2 text-xs text-slate-400 cursor-pointer">
+            <input type="checkbox" class="accent-emerald w-3.5 h-3.5 mt-0.5 flex-shrink-0" required/>
+            <span>I agree to the <a href="#" class="text-emerald-mid hover:underline">Terms of Service</a> and <a href="#" class="text-emerald-mid hover:underline">Privacy Policy</a></span>
+          </label>
+          <button type="submit" class="w-full bg-gradient-to-br from-emerald to-emerald-dark text-white font-bold py-3.5 rounded-xl hover:-translate-y-0.5 hover:shadow-[0_0_25px_rgba(16,185,129,.3)] transition-all">
+            Create Account →
+          </button>
+        </form>
+      </div>
+
+      <!-- Trust strip -->
+      <div class="mt-8 pt-6 border-t border-white/7 flex flex-wrap items-center justify-center gap-4">
+        <div class="text-xs text-slate-500 flex items-center gap-1.5"><span class="text-emerald-mid">🔐</span>256-bit SSL</div>
+        <div class="text-xs text-slate-500 flex items-center gap-1.5"><span class="text-emerald-mid">✓</span>ISO 14001</div>
+        <div class="text-xs text-slate-500 flex items-center gap-1.5"><span class="text-emerald-mid">🇧🇩</span>BTRC Compliant</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+function switchTab(tab) {
+  const signin   = document.getElementById('panel-signin');
+  const register = document.getElementById('panel-register');
+  const tsi      = document.getElementById('tab-signin');
+  const treg     = document.getElementById('tab-register');
+  if (tab === 'signin') {
+    signin.classList.remove('hidden'); register.classList.add('hidden');
+    tsi.classList.add('tab-active'); tsi.classList.remove('tab-inactive');
+    treg.classList.add('tab-inactive'); treg.classList.remove('tab-active');
+  } else {
+    register.classList.remove('hidden'); signin.classList.add('hidden');
+    treg.classList.add('tab-active'); treg.classList.remove('tab-inactive');
+    tsi.classList.add('tab-inactive'); tsi.classList.remove('tab-active');
+  }
+}
+function togglePass(inputId, eyeId) {
+  const inp = document.getElementById(inputId);
+  inp.type = inp.type === 'password' ? 'text' : 'password';
+}
+function checkStrength(val) {
+  let score = 0;
+  if (val.length >= 8) score++;
+  if (/[A-Z]/.test(val)) score++;
+  if (/[0-9]/.test(val)) score++;
+  if (/[^A-Za-z0-9]/.test(val)) score++;
+  const labels = ['','Weak','Fair','Good','Strong'];
+  const classes = ['','str-weak','str-fair','str-good','str-strong'];
+  for (let i = 1; i <= 4; i++) {
+    const el = document.getElementById('s' + i);
+    el.className = 'flex-1 h-1 rounded-full transition-all ' + (i <= score ? classes[score] : 'bg-surface3');
+  }
+  document.getElementById('str-label').textContent = val.length ? labels[score] || '' : '';
+}
+function handleSignIn(e) {
+  e.preventDefault();
+  window.location.href = 'dashboard.html';
+}
+function handleRegister(e) {
+  e.preventDefault();
+  window.location.href = 'dashboard.html';
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,479 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+  <title>RevolTech — Submit Device</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            graphite:  '#0b0f1a',
+            surface0:  '#111827',
+            surface1:  '#1a2332',
+            surface2:  '#1f2937',
+            surface3:  '#2d3748',
+            surface4:  '#374151',
+            emerald:   { DEFAULT:'#059669', dark:'#064e3b', mid:'#10b981', light:'#34d399', glow:'rgba(16,185,129,.18)' },
+            gold:      { DEFAULT:'#d97706', mid:'#f59e0b', light:'#fbbf24' },
+          },
+          fontFamily: { display:['Plus Jakarta Sans','sans-serif'], body:['Inter','sans-serif'] },
+        }
+      }
+    }
+  </script>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&family=Inter:wght@400;500;600&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="base.css"/>
+</head>
+<body class="bg-graphite text-slate-200 min-h-screen">
+
+<div class="app-shell">
+  <!-- SIDEBAR -->
+  <aside class="sidebar" id="sidebar">
+    <a href="index.html" class="flex items-center gap-3 px-5 h-[68px] border-b border-white/7 flex-shrink-0">
+      <div class="w-9 h-9 rounded-xl bg-gradient-to-br from-emerald to-emerald-dark flex items-center justify-center text-lg flex-shrink-0">♻️</div>
+      <span class="sidebar-label font-display font-black text-lg text-white">Revol<span class="text-emerald-mid">Tech</span></span>
+    </a>
+    <nav class="flex-1 overflow-y-auto py-4 px-3 flex flex-col gap-1">
+      <a href="dashboard.html" class="sidebar-link sidebar-interactive"><span class="sidebar-icon">🏠</span><span class="sidebar-label">Dashboard</span></a>
+      <a href="submit-product.html" class="sidebar-link active sidebar-interactive"><span class="sidebar-icon">📤</span><span class="sidebar-label">Submit Device</span></a>
+      <a href="#" class="sidebar-link sidebar-interactive"><span class="sidebar-icon">📦</span><span class="sidebar-label">My Submissions</span></a>
+      <a href="#" class="sidebar-link sidebar-interactive"><span class="sidebar-icon">🚚</span><span class="sidebar-label">Schedule Pickup</span></a>
+      <a href="#" class="sidebar-link sidebar-interactive"><span class="sidebar-icon">💎</span><span class="sidebar-label">My Offers</span></a>
+      <a href="#" class="sidebar-link sidebar-interactive"><span class="sidebar-icon">🏆</span><span class="sidebar-label">Rewards</span></a>
+      <div class="h-px bg-white/7 my-2 mx-2"></div>
+      <a href="#" class="sidebar-link sidebar-interactive"><span class="sidebar-icon">👤</span><span class="sidebar-label">Profile</span></a>
+      <a href="#" class="sidebar-link sidebar-interactive"><span class="sidebar-icon">🔔</span><span class="sidebar-label">Notifications</span></a>
+      <a href="#" class="sidebar-link sidebar-interactive"><span class="sidebar-icon">🆘</span><span class="sidebar-label">Support</span></a>
+    </nav>
+    <div class="flex-shrink-0 border-t border-white/7 p-4 flex items-center gap-3">
+      <div class="w-9 h-9 rounded-xl bg-gradient-to-br from-emerald to-emerald-dark flex items-center justify-center font-bold text-white text-sm flex-shrink-0">SR</div>
+      <div class="sidebar-label"><div class="text-sm font-semibold text-white">Sharmin Rahman</div><div class="text-xs text-emerald-light">Premium Member</div></div>
+    </div>
+  </aside>
+
+  <div class="flex flex-col min-h-screen min-w-0">
+    <!-- TOPBAR -->
+    <header class="topbar">
+      <button class="mob-hamburger" onclick="toggleSidebar()">☰</button>
+      <div class="topbar-mob-title">Submit Device</div>
+      <div class="topbar-breadcrumb hidden md:flex items-center gap-2 text-sm text-slate-400">
+        <a href="dashboard.html" class="hover:text-white transition-colors">← Dashboard</a>
+        <span>/</span>
+        <span class="text-white font-medium">Submit a Device</span>
+      </div>
+      <div class="flex items-center gap-3 ml-auto">
+        <button class="relative w-9 h-9 rounded-xl bg-surface2 border border-white/7 flex items-center justify-center text-base hover:bg-surface3 transition-colors">🔔</button>
+        <div class="w-9 h-9 rounded-xl bg-gradient-to-br from-emerald to-emerald-dark flex items-center justify-center font-bold text-white text-sm">SR</div>
+      </div>
+    </header>
+
+    <!-- CONTENT -->
+    <main class="flex-1 overflow-y-auto p-6 pb-24 md:pb-6">
+      <!-- Step wizard -->
+      <div class="flex items-center justify-center gap-0 mb-8 px-4">
+        <div class="step-circle active" id="sc1">
+          <span class="step-num">1</span>
+          <div class="step-circle-label">Device Info</div>
+        </div>
+        <div class="step-connector" id="con1"></div>
+        <div class="step-circle inactive" id="sc2">
+          <span class="step-num">2</span>
+          <div class="step-circle-label">Condition & Photos</div>
+        </div>
+        <div class="step-connector" id="con2"></div>
+        <div class="step-circle inactive" id="sc3">
+          <span class="step-num">3</span>
+          <div class="step-circle-label">Pickup Details</div>
+        </div>
+      </div>
+
+      <!-- 2-col layout -->
+      <div class="grid grid-cols-1 xl:grid-cols-[1fr_360px] gap-6 items-start">
+        <!-- FORM COLUMN -->
+        <div class="space-y-6">
+
+          <!-- STEP 1: Device Info -->
+          <div id="step1" class="space-y-5">
+            <div class="bg-surface1 border border-white/7 rounded-2xl p-6">
+              <h2 class="font-display font-bold text-white text-lg mb-1">📱 Device Category</h2>
+              <p class="text-sm text-slate-400 mb-5">Tell us what type of device you're submitting</p>
+              <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <div>
+                  <label class="block text-xs font-semibold text-slate-400 mb-1.5 uppercase tracking-wide">Category</label>
+                  <select class="sel" onchange="updatePreview()" id="deviceCategory">
+                    <option value="">Select category…</option>
+                    <option>Laptop</option><option>Desktop</option><option>Smartphone</option>
+                    <option>Tablet</option><option>Monitor</option><option>Television</option>
+                    <option>Printer</option><option>Router/Networking</option><option>UPS</option><option>Other</option>
+                  </select>
+                </div>
+                <div>
+                  <label class="block text-xs font-semibold text-slate-400 mb-1.5 uppercase tracking-wide">Sub-category</label>
+                  <select class="sel"><option value="">Select sub-category…</option><option>Gaming Laptop</option><option>Ultrabook</option><option>Business Laptop</option></select>
+                </div>
+              </div>
+            </div>
+
+            <div class="bg-surface1 border border-white/7 rounded-2xl p-6">
+              <h2 class="font-display font-bold text-white text-lg mb-1">🏷️ Device Identity</h2>
+              <p class="text-sm text-slate-400 mb-5">Help us identify and value your device accurately</p>
+              <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <div>
+                  <label class="block text-xs font-semibold text-slate-400 mb-1.5 uppercase tracking-wide">Brand</label>
+                  <select class="sel" onchange="updatePreview()" id="deviceBrand">
+                    <option value="">Select brand…</option>
+                    <option>Dell</option><option>HP</option><option>Lenovo</option><option>Apple</option>
+                    <option>Asus</option><option>Acer</option><option>Samsung</option><option>Xiaomi</option><option>Other</option>
+                  </select>
+                </div>
+                <div>
+                  <label class="block text-xs font-semibold text-slate-400 mb-1.5 uppercase tracking-wide">Device Name / Series</label>
+                  <input type="text" class="inp" placeholder="e.g. Inspiron 15, Galaxy S22" oninput="updatePreview()" id="deviceName"/>
+                </div>
+                <div>
+                  <label class="block text-xs font-semibold text-slate-400 mb-1.5 uppercase tracking-wide">Model Number</label>
+                  <input type="text" class="inp" placeholder="e.g. 3501-D541BLK"/>
+                </div>
+                <div>
+                  <label class="block text-xs font-semibold text-slate-400 mb-1.5 uppercase tracking-wide">Purchase Year</label>
+                  <select class="sel" onchange="updatePreview()" id="deviceYear">
+                    <option value="">Select year…</option>
+                    <option>2024</option><option>2023</option><option>2022</option><option>2021</option>
+                    <option>2020</option><option>2019</option><option>2018 or earlier</option>
+                  </select>
+                </div>
+                <div class="sm:col-span-2">
+                  <label class="block text-xs font-semibold text-slate-400 mb-1.5 uppercase tracking-wide">Key Specs (RAM / Storage / Processor)</label>
+                  <input type="text" class="inp" placeholder="e.g. Intel i7 / 16GB RAM / 512GB SSD"/>
+                </div>
+              </div>
+            </div>
+
+            <div class="bg-surface1 border border-white/7 rounded-2xl p-6">
+              <h2 class="font-display font-bold text-white text-lg mb-1">⚡ Functional Status</h2>
+              <p class="text-sm text-slate-400 mb-5">Is the device functional?</p>
+              <div class="grid grid-cols-2 gap-3">
+                <label class="flex items-center gap-3 bg-surface2 border border-white/7 rounded-xl p-4 cursor-pointer hover:border-emerald-mid/40 transition-all has-[:checked]:border-emerald-mid has-[:checked]:bg-emerald-glow">
+                  <input type="radio" name="status" value="working" class="accent-emerald"/>
+                  <div><div class="text-sm font-semibold text-white">✅ Fully Working</div><div class="text-xs text-slate-400">Powers on, all functions</div></div>
+                </label>
+                <label class="flex items-center gap-3 bg-surface2 border border-white/7 rounded-xl p-4 cursor-pointer hover:border-emerald-mid/40 transition-all has-[:checked]:border-emerald-mid has-[:checked]:bg-emerald-glow">
+                  <input type="radio" name="status" value="partial" class="accent-emerald"/>
+                  <div><div class="text-sm font-semibold text-white">⚠️ Partially Working</div><div class="text-xs text-slate-400">Powers on with issues</div></div>
+                </label>
+                <label class="flex items-center gap-3 bg-surface2 border border-white/7 rounded-xl p-4 cursor-pointer hover:border-emerald-mid/40 transition-all has-[:checked]:border-emerald-mid has-[:checked]:bg-emerald-glow">
+                  <input type="radio" name="status" value="nopower" class="accent-emerald"/>
+                  <div><div class="text-sm font-semibold text-white">🔌 Doesn't Power On</div><div class="text-xs text-slate-400">Dead but structurally intact</div></div>
+                </label>
+                <label class="flex items-center gap-3 bg-surface2 border border-white/7 rounded-xl p-4 cursor-pointer hover:border-emerald-mid/40 transition-all has-[:checked]:border-emerald-mid has-[:checked]:bg-emerald-glow">
+                  <input type="radio" name="status" value="nopower" class="accent-emerald"/>
+                  <div><div class="text-sm font-semibold text-white">🔨 Parts Only</div><div class="text-xs text-slate-400">Broken for components</div></div>
+                </label>
+              </div>
+            </div>
+
+            <div class="flex justify-end">
+              <button onclick="goToStep(2)" class="flex items-center gap-2 bg-gradient-to-br from-emerald to-emerald-dark text-white font-bold px-8 py-3.5 rounded-xl hover:-translate-y-0.5 hover:shadow-[0_0_25px_rgba(16,185,129,.3)] transition-all">Next: Condition & Photos →</button>
+            </div>
+          </div>
+
+          <!-- STEP 2: Condition & Photos -->
+          <div id="step2" class="hidden space-y-5">
+            <div class="bg-surface1 border border-white/7 rounded-2xl p-6">
+              <h2 class="font-display font-bold text-white text-lg mb-1">🎯 Overall Condition</h2>
+              <p class="text-sm text-slate-400 mb-5">Rate the physical condition of the device</p>
+              <div class="flex flex-wrap gap-3">
+                <label class="flex items-center gap-2 px-4 py-2.5 bg-surface2 border border-white/10 rounded-xl cursor-pointer text-sm font-semibold hover:border-emerald-mid/40 transition-all has-[:checked]:border-emerald-mid has-[:checked]:text-emerald-light has-[:checked]:bg-emerald-glow">
+                  <input type="radio" name="condition" value="new" class="hidden"/>✨ Like New
+                </label>
+                <label class="flex items-center gap-2 px-4 py-2.5 bg-surface2 border border-white/10 rounded-xl cursor-pointer text-sm font-semibold hover:border-emerald-mid/40 transition-all has-[:checked]:border-emerald-mid has-[:checked]:text-emerald-light has-[:checked]:bg-emerald-glow">
+                  <input type="radio" name="condition" value="good" class="hidden"/>👍 Good
+                </label>
+                <label class="flex items-center gap-2 px-4 py-2.5 bg-surface2 border border-white/10 rounded-xl cursor-pointer text-sm font-semibold hover:border-emerald-mid/40 transition-all has-[:checked]:border-emerald-mid has-[:checked]:text-emerald-light has-[:checked]:bg-emerald-glow">
+                  <input type="radio" name="condition" value="fair" class="hidden"/>😐 Fair
+                </label>
+                <label class="flex items-center gap-2 px-4 py-2.5 bg-surface2 border border-white/10 rounded-xl cursor-pointer text-sm font-semibold hover:border-emerald-mid/40 transition-all has-[:checked]:border-emerald-mid has-[:checked]:text-emerald-light has-[:checked]:bg-emerald-glow">
+                  <input type="radio" name="condition" value="poor" class="hidden"/>😕 Poor
+                </label>
+                <label class="flex items-center gap-2 px-4 py-2.5 bg-surface2 border border-white/10 rounded-xl cursor-pointer text-sm font-semibold hover:border-emerald-mid/40 transition-all has-[:checked]:border-emerald-mid has-[:checked]:text-emerald-light has-[:checked]:bg-emerald-glow">
+                  <input type="radio" name="condition" value="parts" class="hidden"/>🔧 Parts Only
+                </label>
+              </div>
+            </div>
+
+            <div class="bg-surface1 border border-white/7 rounded-2xl p-6">
+              <h2 class="font-display font-bold text-white text-lg mb-1">📦 Included Accessories</h2>
+              <p class="text-sm text-slate-400 mb-5">What's included with the device?</p>
+              <div class="grid grid-cols-2 sm:grid-cols-3 gap-3">
+                <label class="flex items-center gap-2 bg-surface2 border border-white/7 rounded-xl p-3 cursor-pointer text-sm hover:border-white/15 has-[:checked]:border-emerald-mid/50 has-[:checked]:bg-emerald-glow transition-all">
+                  <input type="checkbox" class="accent-emerald w-4 h-4"/>🔌 Charger / Adapter
+                </label>
+                <label class="flex items-center gap-2 bg-surface2 border border-white/7 rounded-xl p-3 cursor-pointer text-sm hover:border-white/15 has-[:checked]:border-emerald-mid/50 has-[:checked]:bg-emerald-glow transition-all">
+                  <input type="checkbox" class="accent-emerald w-4 h-4"/>📦 Original Box
+                </label>
+                <label class="flex items-center gap-2 bg-surface2 border border-white/7 rounded-xl p-3 cursor-pointer text-sm hover:border-white/15 has-[:checked]:border-emerald-mid/50 has-[:checked]:bg-emerald-glow transition-all">
+                  <input type="checkbox" class="accent-emerald w-4 h-4"/>🐭 Mouse / Keyboard
+                </label>
+                <label class="flex items-center gap-2 bg-surface2 border border-white/7 rounded-xl p-3 cursor-pointer text-sm hover:border-white/15 has-[:checked]:border-emerald-mid/50 has-[:checked]:bg-emerald-glow transition-all">
+                  <input type="checkbox" class="accent-emerald w-4 h-4"/>📋 Manual / Docs
+                </label>
+                <label class="flex items-center gap-2 bg-surface2 border border-white/7 rounded-xl p-3 cursor-pointer text-sm hover:border-white/15 has-[:checked]:border-emerald-mid/50 has-[:checked]:bg-emerald-glow transition-all">
+                  <input type="checkbox" class="accent-emerald w-4 h-4"/>🔋 Battery Pack
+                </label>
+                <label class="flex items-center gap-2 bg-surface2 border border-white/7 rounded-xl p-3 cursor-pointer text-sm hover:border-white/15 has-[:checked]:border-emerald-mid/50 has-[:checked]:bg-emerald-glow transition-all">
+                  <input type="checkbox" class="accent-emerald w-4 h-4"/>🔌 USB Cables
+                </label>
+              </div>
+            </div>
+
+            <div class="bg-surface1 border border-white/7 rounded-2xl p-6">
+              <h2 class="font-display font-bold text-white text-lg mb-1">📸 Upload Photos</h2>
+              <p class="text-sm text-slate-400 mb-5">Clear photos help us give you a better valuation</p>
+              <label class="flex flex-col items-center justify-center border-2 border-dashed border-white/15 rounded-2xl py-8 px-4 cursor-pointer hover:border-emerald-mid/40 hover:bg-emerald-glow/50 transition-all mb-4">
+                <span class="text-3xl mb-2">📷</span>
+                <span class="text-sm font-semibold text-white">Drag & drop or click to upload</span>
+                <span class="text-xs text-slate-500 mt-1">JPG, PNG up to 10MB each · Max 8 photos</span>
+                <input type="file" class="hidden" accept="image/*" multiple/>
+              </label>
+              <div class="grid grid-cols-4 gap-3">
+                <div class="aspect-square bg-surface2 border border-dashed border-white/10 rounded-xl flex flex-col items-center justify-center gap-1 text-slate-600 cursor-pointer hover:border-white/20 transition-all">
+                  <span class="text-xl">+</span><span class="text-[10px]">Front</span>
+                </div>
+                <div class="aspect-square bg-surface2 border border-dashed border-white/10 rounded-xl flex flex-col items-center justify-center gap-1 text-slate-600 cursor-pointer hover:border-white/20 transition-all">
+                  <span class="text-xl">+</span><span class="text-[10px]">Back</span>
+                </div>
+                <div class="aspect-square bg-surface2 border border-dashed border-white/10 rounded-xl flex flex-col items-center justify-center gap-1 text-slate-600 cursor-pointer hover:border-white/20 transition-all">
+                  <span class="text-xl">+</span><span class="text-[10px]">Side</span>
+                </div>
+                <div class="aspect-square bg-surface2 border border-dashed border-white/10 rounded-xl flex flex-col items-center justify-center gap-1 text-slate-600 cursor-pointer hover:border-white/20 transition-all">
+                  <span class="text-xl">+</span><span class="text-[10px]">Damage</span>
+                </div>
+              </div>
+            </div>
+
+            <div class="bg-surface1 border border-white/7 rounded-2xl p-6 space-y-4">
+              <div>
+                <label class="block text-xs font-semibold text-slate-400 mb-1.5 uppercase tracking-wide">Additional Details</label>
+                <textarea class="ta" rows="3" placeholder="Describe any damage, issues, or notable features…"></textarea>
+              </div>
+              <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <div>
+                  <label class="block text-xs font-semibold text-slate-400 mb-1.5 uppercase tracking-wide">Your Expected Price (optional)</label>
+                  <div class="relative"><span class="absolute left-4 top-1/2 -translate-y-1/2 text-slate-500">৳</span><input type="number" class="inp pl-8" placeholder="e.g. 45000"/></div>
+                </div>
+                <div>
+                  <label class="block text-xs font-semibold text-slate-400 mb-1.5 uppercase tracking-wide">Preferred Transaction</label>
+                  <select class="sel"><option>bKash</option><option>Nagad</option><option>Bank Transfer</option><option>Cash on Pickup</option></select>
+                </div>
+              </div>
+            </div>
+
+            <div class="flex gap-3 justify-between">
+              <button onclick="goToStep(1)" class="flex items-center gap-2 bg-surface2 border border-white/10 text-slate-300 font-semibold px-6 py-3.5 rounded-xl hover:bg-surface3 transition-all">← Back</button>
+              <button onclick="goToStep(3)" class="flex items-center gap-2 bg-gradient-to-br from-emerald to-emerald-dark text-white font-bold px-8 py-3.5 rounded-xl hover:-translate-y-0.5 hover:shadow-[0_0_25px_rgba(16,185,129,.3)] transition-all">Next: Pickup Details →</button>
+            </div>
+          </div>
+
+          <!-- STEP 3: Pickup Details -->
+          <div id="step3" class="hidden space-y-5">
+            <div class="bg-surface1 border border-white/7 rounded-2xl p-6 space-y-4">
+              <h2 class="font-display font-bold text-white text-lg mb-1">📍 Pickup Address</h2>
+              <p class="text-sm text-slate-400">Where should we pick up the device?</p>
+              <div>
+                <label class="block text-xs font-semibold text-slate-400 mb-1.5 uppercase tracking-wide">Full Address</label>
+                <input type="text" class="inp" placeholder="House/Flat No., Road, Block"/>
+              </div>
+              <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <div>
+                  <label class="block text-xs font-semibold text-slate-400 mb-1.5 uppercase tracking-wide">District</label>
+                  <select class="sel">
+                    <option value="">Select district…</option>
+                    <option>Dhaka</option><option>Chittagong</option><option>Sylhet</option><option>Rajshahi</option>
+                    <option>Khulna</option><option>Barisal</option><option>Rangpur</option><option>Mymensingh</option>
+                  </select>
+                </div>
+                <div>
+                  <label class="block text-xs font-semibold text-slate-400 mb-1.5 uppercase tracking-wide">Area / Thana</label>
+                  <input type="text" class="inp" placeholder="e.g. Gulshan, Dhanmondi"/>
+                </div>
+              </div>
+              <div>
+                <label class="block text-xs font-semibold text-slate-400 mb-1.5 uppercase tracking-wide">Landmark (optional)</label>
+                <input type="text" class="inp" placeholder="Near mosque, landmark building…"/>
+              </div>
+            </div>
+
+            <div class="bg-surface1 border border-white/7 rounded-2xl p-6 space-y-4">
+              <h2 class="font-display font-bold text-white text-lg mb-1">📅 Preferred Date & Time</h2>
+              <div>
+                <label class="block text-xs font-semibold text-slate-400 mb-1.5 uppercase tracking-wide">Pickup Date</label>
+                <input type="date" class="inp"/>
+              </div>
+              <div>
+                <label class="block text-xs font-semibold text-slate-400 mb-3 uppercase tracking-wide">Time Slot</label>
+                <div class="grid grid-cols-2 sm:grid-cols-4 gap-3">
+                  <label class="text-center bg-surface2 border border-white/7 rounded-xl p-3 cursor-pointer hover:border-emerald-mid/40 has-[:checked]:border-emerald-mid has-[:checked]:bg-emerald-glow transition-all">
+                    <input type="radio" name="slot" class="hidden"/>
+                    <div class="text-sm font-semibold text-white">9am–12pm</div><div class="text-[10px] text-slate-400 mt-0.5">Morning</div>
+                  </label>
+                  <label class="text-center bg-surface2 border border-white/7 rounded-xl p-3 cursor-pointer hover:border-emerald-mid/40 has-[:checked]:border-emerald-mid has-[:checked]:bg-emerald-glow transition-all">
+                    <input type="radio" name="slot" class="hidden"/>
+                    <div class="text-sm font-semibold text-white">12pm–3pm</div><div class="text-[10px] text-slate-400 mt-0.5">Noon</div>
+                  </label>
+                  <label class="text-center bg-surface2 border border-white/7 rounded-xl p-3 cursor-pointer hover:border-emerald-mid/40 has-[:checked]:border-emerald-mid has-[:checked]:bg-emerald-glow transition-all">
+                    <input type="radio" name="slot" class="hidden"/>
+                    <div class="text-sm font-semibold text-white">3pm–6pm</div><div class="text-[10px] text-slate-400 mt-0.5">Afternoon</div>
+                  </label>
+                  <label class="text-center bg-surface2 border border-white/7 rounded-xl p-3 cursor-pointer hover:border-emerald-mid/40 has-[:checked]:border-emerald-mid has-[:checked]:bg-emerald-glow transition-all">
+                    <input type="radio" name="slot" class="hidden"/>
+                    <div class="text-sm font-semibold text-white">6pm–8pm</div><div class="text-[10px] text-slate-400 mt-0.5">Evening</div>
+                  </label>
+                </div>
+              </div>
+            </div>
+
+            <div class="bg-surface1 border border-white/7 rounded-2xl p-6 space-y-4">
+              <h2 class="font-display font-bold text-white text-lg mb-1">👤 Contact Information</h2>
+              <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <div>
+                  <label class="block text-xs font-semibold text-slate-400 mb-1.5 uppercase tracking-wide">Contact Name</label>
+                  <input type="text" class="inp" placeholder="Name of person at pickup" value="Sharmin Rahman"/>
+                </div>
+                <div>
+                  <label class="block text-xs font-semibold text-slate-400 mb-1.5 uppercase tracking-wide">Contact Phone</label>
+                  <input type="tel" class="inp" placeholder="01XXXXXXXXX"/>
+                </div>
+              </div>
+              <div>
+                <label class="block text-xs font-semibold text-slate-400 mb-1.5 uppercase tracking-wide">Additional Notes for Agent (optional)</label>
+                <textarea class="ta" rows="2" placeholder="Any special instructions for the pickup agent…"></textarea>
+              </div>
+            </div>
+
+            <div class="flex gap-3 justify-between">
+              <button onclick="goToStep(2)" class="flex items-center gap-2 bg-surface2 border border-white/10 text-slate-300 font-semibold px-6 py-3.5 rounded-xl hover:bg-surface3 transition-all">← Back</button>
+              <button onclick="submitForm()" class="flex items-center gap-2 bg-gradient-to-br from-emerald to-emerald-dark text-white font-bold px-10 py-3.5 rounded-xl hover:-translate-y-0.5 hover:shadow-[0_0_30px_rgba(16,185,129,.3)] transition-all">🚀 Submit Device</button>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- PREVIEW COLUMN (sticky on desktop) -->
+        <div class="hidden xl:block sticky top-6 space-y-5">
+          <!-- Preview card -->
+          <div class="bg-surface1 border border-white/7 rounded-2xl p-6">
+            <div class="flex items-center justify-between mb-5">
+              <h3 class="font-display font-bold text-white">Live Preview</h3>
+              <span class="text-[10px] font-bold text-emerald-light bg-emerald-glow border border-emerald-mid/30 px-2.5 py-1 rounded-full uppercase tracking-wide">Live</span>
+            </div>
+            <div class="text-center py-4 mb-4">
+              <div id="prev-icon" class="text-5xl mb-3">📤</div>
+              <div id="prev-brand" class="text-lg font-black font-display text-white">Select Device</div>
+              <div id="prev-name" class="text-sm text-slate-400">Complete the form</div>
+            </div>
+            <div class="space-y-3 text-sm">
+              <div class="flex justify-between py-2 border-b border-white/7"><span class="text-slate-400">Category</span><span id="prev-cat" class="text-white font-medium">—</span></div>
+              <div class="flex justify-between py-2 border-b border-white/7"><span class="text-slate-400">Year</span><span id="prev-year" class="text-white font-medium">—</span></div>
+              <div class="flex justify-between py-2"><span class="text-slate-400">Est. Value</span><span class="text-emerald-light font-bold">৳35,000 – ৳55,000</span></div>
+            </div>
+          </div>
+
+          <!-- Valuation hint -->
+          <div class="bg-surface1 border border-white/7 rounded-2xl p-5">
+            <div class="flex items-center gap-2 mb-3">
+              <span class="text-lg">💡</span>
+              <h4 class="font-display font-bold text-white">Valuation Tip</h4>
+            </div>
+            <p class="text-xs text-slate-400 leading-relaxed">Better photos and accurate specs can increase your offer by up to <strong class="text-emerald-light">25%</strong>. Include a front, back and side photo minimum.</p>
+          </div>
+
+          <!-- Trust badges -->
+          <div class="bg-surface1 border border-white/7 rounded-2xl p-5 space-y-3">
+            <h4 class="font-display font-bold text-white text-sm mb-3">✅ Our Guarantee</h4>
+            <div class="flex items-center gap-2.5 text-xs text-slate-400"><span class="w-5 h-5 rounded bg-emerald-glow border border-emerald-mid/30 flex items-center justify-center text-[9px] text-emerald-light flex-shrink-0">✓</span>Free pickup — no hidden charges</div>
+            <div class="flex items-center gap-2.5 text-xs text-slate-400"><span class="w-5 h-5 rounded bg-emerald-glow border border-emerald-mid/30 flex items-center justify-center text-[9px] text-emerald-light flex-shrink-0">✓</span>Certified data destruction</div>
+            <div class="flex items-center gap-2.5 text-xs text-slate-400"><span class="w-5 h-5 rounded bg-emerald-glow border border-emerald-mid/30 flex items-center justify-center text-[9px] text-emerald-light flex-shrink-0">✓</span>Valuation sent within 24 hours</div>
+            <div class="flex items-center gap-2.5 text-xs text-slate-400"><span class="w-5 h-5 rounded bg-emerald-glow border border-emerald-mid/30 flex items-center justify-center text-[9px] text-emerald-light flex-shrink-0">✓</span>Same-day bKash payment</div>
+          </div>
+        </div>
+      </div>
+    </main>
+  </div>
+</div>
+
+<!-- Success overlay -->
+<div id="success-overlay" class="hidden fixed inset-0 z-[999] flex items-center justify-center bg-graphite/90 backdrop-blur-md">
+  <div class="bg-surface1 border border-emerald-mid/30 rounded-3xl p-10 max-w-md w-full mx-4 text-center shadow-2xl animate-fadeup">
+    <div class="w-20 h-20 rounded-full bg-gradient-to-br from-emerald to-emerald-dark flex items-center justify-center text-4xl mx-auto mb-6 shadow-[0_0_40px_rgba(16,185,129,.3)]">🎉</div>
+    <h2 class="font-display font-black text-3xl text-white mb-2">Submitted!</h2>
+    <p class="text-slate-400 mb-6">Your device has been received. We'll send a valuation within 24 hours.</p>
+    <div class="bg-surface2 border border-white/7 rounded-2xl p-4 mb-8">
+      <div class="text-xs text-slate-400 uppercase tracking-widest mb-1">Reference Number</div>
+      <div class="font-display font-black text-2xl text-emerald-light">#REV-2026-0042</div>
+    </div>
+    <a href="dashboard.html" class="w-full flex justify-center items-center gap-2 bg-gradient-to-br from-emerald to-emerald-dark text-white font-bold py-3.5 rounded-xl hover:-translate-y-0.5 transition-all shadow-[0_0_25px_rgba(16,185,129,.25)]">→ Go to Dashboard</a>
+  </div>
+</div>
+
+<!-- Mobile bottom nav -->
+<nav class="md:hidden fixed bottom-0 left-0 right-0 bg-surface0 border-t border-white/7 z-[500] flex">
+  <a href="dashboard.html" class="flex-1 flex flex-col items-center justify-center gap-1 py-3 text-slate-500"><span class="text-lg">🏠</span><span class="text-[9px] font-semibold">Home</span></a>
+  <a href="submit-product.html" class="flex-1 flex flex-col items-center justify-center gap-1 py-3 text-emerald-mid"><span class="text-lg">📤</span><span class="text-[9px] font-semibold">Submit</span></a>
+  <a href="#" class="flex-1 flex flex-col items-center justify-center gap-1 py-3 text-slate-500"><span class="text-lg">📦</span><span class="text-[9px] font-semibold">Items</span></a>
+  <a href="#" class="flex-1 flex flex-col items-center justify-center gap-1 py-3 text-slate-500"><span class="text-lg">🏆</span><span class="text-[9px] font-semibold">Rewards</span></a>
+  <a href="#" class="flex-1 flex flex-col items-center justify-center gap-1 py-3 text-slate-500"><span class="text-lg">👤</span><span class="text-[9px] font-semibold">Profile</span></a>
+</nav>
+
+<div id="sidebar-backdrop" class="hidden fixed inset-0 bg-black/60 z-[499] backdrop-blur-sm" onclick="closeSidebar()"></div>
+
+<script>
+let currentStep = 1;
+const ICON_MAP = { 'Laptop':'💻','Desktop':'🖥️','Smartphone':'📱','Tablet':'📟','Monitor':'🖥️','Television':'📺','Printer':'🖨️','Router/Networking':'📡','UPS':'🔋','Other':'📦' };
+
+function goToStep(n) {
+  document.getElementById('step' + currentStep).classList.add('hidden');
+  document.getElementById('step' + n).classList.remove('hidden');
+  const nodes = [document.getElementById('sc1'),document.getElementById('sc2'),document.getElementById('sc3')];
+  const cons  = [document.getElementById('con1'),document.getElementById('con2')];
+  nodes.forEach((el,i) => {
+    el.className = 'step-circle ' + (i+1 < n ? 'done' : i+1 === n ? 'active' : 'inactive');
+  });
+  if (n > 1) cons[0].classList.add('filled'); else cons[0].classList.remove('filled');
+  if (n > 2) cons[1].classList.add('filled'); else cons[1].classList.remove('filled');
+  currentStep = n;
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+
+function updatePreview() {
+  const cat  = document.getElementById('deviceCategory').value;
+  const brand = document.getElementById('deviceBrand').value;
+  const name  = document.getElementById('deviceName').value;
+  const year  = document.getElementById('deviceYear').value;
+  document.getElementById('prev-icon').textContent  = ICON_MAP[cat] || '📤';
+  document.getElementById('prev-brand').textContent = (brand && name) ? brand + ' ' + name : (brand || 'Select Device');
+  document.getElementById('prev-name').textContent  = name || 'Complete the form';
+  document.getElementById('prev-cat').textContent   = cat || '—';
+  document.getElementById('prev-year').textContent  = year || '—';
+}
+
+function submitForm() {
+  document.getElementById('success-overlay').classList.remove('hidden');
+}
+
+function toggleSidebar() {
+  const s = document.getElementById('sidebar');
+  const b = document.getElementById('sidebar-backdrop');
+  const isOpen = s.classList.toggle('open');
+  b.classList.toggle('hidden', !isOpen);
+}
+function closeSidebar() {
+  document.getElementById('sidebar').classList.remove('open');
+  document.getElementById('sidebar-backdrop').classList.add('hidden');
+}
+</script>
+</body>
+</html>

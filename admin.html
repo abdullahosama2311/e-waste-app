@@ -1,0 +1,400 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+  <title>RevolTech — Admin Panel</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            graphite:  '#0b0f1a',
+            surface0:  '#111827',
+            surface1:  '#1a2332',
+            surface2:  '#1f2937',
+            surface3:  '#2d3748',
+            surface4:  '#374151',
+            emerald:   { DEFAULT:'#059669', dark:'#064e3b', mid:'#10b981', light:'#34d399', glow:'rgba(16,185,129,.18)' },
+            gold:      { DEFAULT:'#d97706', mid:'#f59e0b', light:'#fbbf24' },
+          },
+          fontFamily: { display:['Plus Jakarta Sans','sans-serif'], body:['Inter','sans-serif'] },
+        }
+      }
+    }
+  </script>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&family=Inter:wght@400;500;600&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="base.css"/>
+</head>
+<body class="bg-graphite text-slate-200 min-h-screen">
+
+<div class="app-shell">
+  <!-- ══ ADMIN SIDEBAR ══ -->
+  <aside class="sidebar" id="sidebar">
+    <a href="index.html" class="flex items-center gap-3 px-5 h-[68px] border-b border-white/7 flex-shrink-0">
+      <div class="w-9 h-9 rounded-xl flex items-center justify-center text-lg flex-shrink-0" style="background:linear-gradient(135deg,#d97706,#92400e);box-shadow:0 0 15px rgba(245,158,11,.3)">🛡️</div>
+      <div class="sidebar-label">
+        <div class="font-display font-black text-sm text-white leading-tight">Revol<span class="text-gold-mid">Tech</span></div>
+        <div class="text-[10px] text-gold-light font-bold uppercase tracking-widest">Admin</div>
+      </div>
+    </a>
+    <nav class="flex-1 overflow-y-auto py-4 px-3 flex flex-col gap-1">
+      <a href="admin.html" class="sidebar-link active sidebar-interactive"><span class="sidebar-icon">📊</span><span class="sidebar-label">Dashboard</span></a>
+      <a href="#" class="sidebar-link sidebar-interactive">
+        <span class="sidebar-icon">📥</span><span class="sidebar-label flex-1">Submissions</span>
+        <span class="sidebar-label ml-auto text-[10px] font-bold bg-gold/20 text-gold-light border border-gold/30 px-2 py-0.5 rounded-full">14</span>
+      </a>
+      <a href="#" class="sidebar-link sidebar-interactive">
+        <span class="sidebar-icon">✅</span><span class="sidebar-label flex-1">Approvals</span>
+        <span class="sidebar-label ml-auto text-[10px] font-bold bg-red-500/20 text-red-300 border border-red-500/30 px-2 py-0.5 rounded-full">6</span>
+      </a>
+      <a href="#" class="sidebar-link sidebar-interactive"><span class="sidebar-icon">🚚</span><span class="sidebar-label">Pickup Mgmt</span></a>
+      <a href="#" class="sidebar-link sidebar-interactive"><span class="sidebar-icon">👥</span><span class="sidebar-label">Users</span></a>
+      <a href="#" class="sidebar-link sidebar-interactive"><span class="sidebar-icon">🤝</span><span class="sidebar-label">Agents</span></a>
+      <a href="#" class="sidebar-link sidebar-interactive"><span class="sidebar-icon">📈</span><span class="sidebar-label">Analytics</span></a>
+      <a href="#" class="sidebar-link sidebar-interactive"><span class="sidebar-icon">🗺️</span><span class="sidebar-label">Coverage Map</span></a>
+      <div class="h-px bg-white/7 my-2 mx-2"></div>
+      <a href="#" class="sidebar-link sidebar-interactive">
+        <span class="sidebar-icon">⚠️</span><span class="sidebar-label flex-1">Alerts</span>
+        <span class="sidebar-label ml-auto text-[10px] font-bold bg-red-500/20 text-red-300 border border-red-500/30 px-2 py-0.5 rounded-full">3</span>
+      </a>
+      <a href="#" class="sidebar-link sidebar-interactive"><span class="sidebar-icon">⚙️</span><span class="sidebar-label">Settings</span></a>
+    </nav>
+    <div class="flex-shrink-0 border-t border-white/7 p-4 flex items-center gap-3">
+      <div class="w-9 h-9 rounded-xl flex items-center justify-center font-bold text-white text-sm flex-shrink-0" style="background:linear-gradient(135deg,#d97706,#92400e)">A</div>
+      <div class="sidebar-label"><div class="text-sm font-semibold text-white">Admin User</div><div class="text-xs text-gold-light">Super Admin</div></div>
+    </div>
+  </aside>
+
+  <!-- ══ MAIN ══ -->
+  <div class="flex flex-col min-h-screen min-w-0">
+
+    <!-- TOPBAR -->
+    <header class="topbar">
+      <button class="mob-hamburger" onclick="toggleSidebar()">☰</button>
+      <div class="topbar-mob-title">Admin Panel</div>
+      <div class="hidden md:flex flex-col gap-0.5 flex-shrink-0">
+        <div class="font-display font-bold text-white text-base leading-tight">Control Centre</div>
+        <div class="text-xs text-slate-500">📅 <span id="admin-date"></span></div>
+      </div>
+      <div class="hidden md:flex flex-1 max-w-sm ml-4">
+        <div class="relative w-full">
+          <span class="absolute left-4 top-1/2 -translate-y-1/2 text-slate-500 text-sm">🔍</span>
+          <input type="search" placeholder="Search users, submissions…" class="w-full bg-surface2 border border-white/7 text-sm text-white placeholder-slate-500 rounded-xl py-2.5 pl-11 pr-4 focus:outline-none focus:border-emerald-mid/50 transition-colors"/>
+        </div>
+      </div>
+      <div class="flex items-center gap-3 ml-auto">
+        <button class="hidden sm:flex items-center gap-2 text-white text-xs font-bold px-4 py-2.5 rounded-xl hover:-translate-y-0.5 transition-all" style="background:linear-gradient(135deg,#d97706,#92400e)">+ New Agent</button>
+        <button class="relative w-9 h-9 rounded-xl bg-surface2 border border-white/7 flex items-center justify-center text-base hover:bg-surface3 transition-colors">
+          🔔<span class="absolute -top-0.5 -right-0.5 w-4 h-4 rounded-full bg-red-500 text-[9px] text-white flex items-center justify-center font-bold">3</span>
+        </button>
+        <div class="w-9 h-9 rounded-xl flex items-center justify-center font-bold text-white text-sm cursor-pointer" style="background:linear-gradient(135deg,#d97706,#92400e)">A</div>
+      </div>
+    </header>
+
+    <!-- CONTENT -->
+    <main class="flex-1 overflow-y-auto p-6 pb-24 md:pb-6 space-y-6">
+
+      <!-- KPI grid -->
+      <div class="grid grid-cols-2 lg:grid-cols-3 xl:grid-cols-6 gap-4">
+        <div class="bg-surface1 border border-white/7 rounded-2xl p-5 hover:-translate-y-1 hover:shadow-2xl transition-all">
+          <div class="w-10 h-10 rounded-xl bg-emerald-glow border border-emerald-mid/30 flex items-center justify-center text-xl mb-3">📦</div>
+          <div class="font-display font-black text-2xl text-white">3,482</div>
+          <div class="text-xs text-slate-400 mt-1">Total Submissions</div>
+          <div class="text-xs text-emerald-light mt-1 font-medium">↑ +12% this month</div>
+        </div>
+        <div class="bg-surface1 border border-white/7 rounded-2xl p-5 hover:-translate-y-1 hover:shadow-2xl transition-all">
+          <div class="w-10 h-10 rounded-xl bg-gold/15 border border-gold/25 flex items-center justify-center text-xl mb-3">⏳</div>
+          <div class="font-display font-black text-2xl text-white">127</div>
+          <div class="text-xs text-slate-400 mt-1">Pending Approval</div>
+          <div class="text-xs text-gold-light mt-1 font-medium">↑ +8 today</div>
+        </div>
+        <div class="bg-surface1 border border-white/7 rounded-2xl p-5 hover:-translate-y-1 hover:shadow-2xl transition-all">
+          <div class="w-10 h-10 rounded-xl bg-blue-500/15 border border-blue-500/25 flex items-center justify-center text-xl mb-3">🚚</div>
+          <div class="font-display font-black text-2xl text-white">34</div>
+          <div class="text-xs text-slate-400 mt-1">Pickups Today</div>
+          <div class="text-xs text-blue-300 mt-1 font-medium">18 completed</div>
+        </div>
+        <div class="bg-surface1 border border-white/7 rounded-2xl p-5 hover:-translate-y-1 hover:shadow-2xl transition-all">
+          <div class="w-10 h-10 rounded-xl bg-purple-500/15 border border-purple-500/25 flex items-center justify-center text-xl mb-3">👥</div>
+          <div class="font-display font-black text-2xl text-white">24.1K</div>
+          <div class="text-xs text-slate-400 mt-1">Total Users</div>
+          <div class="text-xs text-purple-300 mt-1 font-medium">↑ +204 this week</div>
+        </div>
+        <div class="bg-surface1 border border-white/7 rounded-2xl p-5 hover:-translate-y-1 hover:shadow-2xl transition-all">
+          <div class="w-10 h-10 rounded-xl bg-emerald-glow border border-emerald-mid/30 flex items-center justify-center text-xl mb-3">💰</div>
+          <div class="font-display font-black text-2xl text-white">৳82L</div>
+          <div class="text-xs text-slate-400 mt-1">Revenue This Year</div>
+          <div class="text-xs text-emerald-light mt-1 font-medium">↑ +38% YoY</div>
+        </div>
+        <div class="bg-surface1 border border-white/7 rounded-2xl p-5 hover:-translate-y-1 hover:shadow-2xl transition-all">
+          <div class="w-10 h-10 rounded-xl bg-teal-500/15 border border-teal-500/25 flex items-center justify-center text-xl mb-3">🌿</div>
+          <div class="font-display font-black text-2xl text-white">1,204T</div>
+          <div class="text-xs text-slate-400 mt-1">CO₂ Prevented</div>
+          <div class="text-xs text-teal-300 mt-1 font-medium">↑ +18% vs last year</div>
+        </div>
+      </div>
+
+      <!-- Submissions table -->
+      <div class="bg-surface1 border border-white/7 rounded-2xl overflow-hidden">
+        <div class="px-6 py-5 border-b border-white/7">
+          <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-4 flex-wrap">
+            <div>
+              <h3 class="font-display font-bold text-white text-lg">All Submissions</h3>
+              <p class="text-xs text-slate-400 mt-0.5">Total: 3,482 · Showing latest 5</p>
+            </div>
+            <div class="flex flex-wrap gap-2">
+              <button class="text-xs font-semibold px-3 py-1.5 rounded-full bg-white/8 border border-white/12 text-white">All (3,482)</button>
+              <button class="text-xs font-semibold px-3 py-1.5 rounded-full border border-transparent text-slate-400 hover:text-white hover:bg-white/5 transition-all">Pending (127)</button>
+              <button class="text-xs font-semibold px-3 py-1.5 rounded-full border border-transparent text-slate-400 hover:text-white hover:bg-white/5 transition-all">Review (89)</button>
+              <button class="text-xs font-semibold px-3 py-1.5 rounded-full border border-transparent text-slate-400 hover:text-white hover:bg-white/5 transition-all">Pickup (34)</button>
+              <button class="text-xs font-semibold px-3 py-1.5 rounded-full border border-transparent text-slate-400 hover:text-white hover:bg-white/5 transition-all">Completed</button>
+              <button class="text-xs font-semibold px-3 py-1.5 rounded-full border border-transparent text-slate-400 hover:text-white hover:bg-white/5 transition-all">Rejected</button>
+            </div>
+          </div>
+        </div>
+        <div class="dt-wrap">
+          <table class="dt">
+            <thead>
+              <tr>
+                <th>ID</th><th>User</th><th>Device</th><th>Category</th><th>Date</th><th>Est. Value</th><th>Status</th><th>Agent</th><th>Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td class="font-mono text-xs text-slate-500">#0042</td>
+                <td><div class="flex items-center gap-2"><div class="w-7 h-7 rounded-lg bg-gradient-to-br from-emerald to-emerald-dark flex items-center justify-center text-xs font-bold text-white flex-shrink-0">SR</div><span class="font-medium whitespace-nowrap">Sharmin R.</span></div></td>
+                <td class="whitespace-nowrap">Dell Inspiron 15</td>
+                <td class="text-slate-400">Laptop</td>
+                <td class="text-slate-400 whitespace-nowrap">12 Jan 2026</td>
+                <td class="text-emerald-light font-semibold">৳42,000</td>
+                <td><span class="chip chip-pickup">Pickup</span></td>
+                <td class="text-slate-400 text-xs">Rahim A.</td>
+                <td><div class="flex gap-1.5"><button class="btn-approve">✓</button><button class="btn-reject">✕</button><button class="btn-assign">⚙</button></div></td>
+              </tr>
+              <tr>
+                <td class="font-mono text-xs text-slate-500">#0041</td>
+                <td><div class="flex items-center gap-2"><div class="w-7 h-7 rounded-lg bg-gradient-to-br from-blue-500 to-blue-700 flex items-center justify-center text-xs font-bold text-white flex-shrink-0">MK</div><span class="font-medium whitespace-nowrap">Masud K.</span></div></td>
+                <td class="whitespace-nowrap">Samsung Galaxy S22</td>
+                <td class="text-slate-400">Smartphone</td>
+                <td class="text-slate-400 whitespace-nowrap">12 Jan 2026</td>
+                <td class="text-emerald-light font-semibold">৳52,000</td>
+                <td><span class="chip chip-review">Review</span></td>
+                <td class="text-slate-400 text-xs">—</td>
+                <td><div class="flex gap-1.5"><button class="btn-approve">✓</button><button class="btn-reject">✕</button><button class="btn-assign">⚙</button></div></td>
+              </tr>
+              <tr>
+                <td class="font-mono text-xs text-slate-500">#0040</td>
+                <td><div class="flex items-center gap-2"><div class="w-7 h-7 rounded-lg bg-gradient-to-br from-purple-500 to-purple-700 flex items-center justify-center text-xs font-bold text-white flex-shrink-0">NJ</div><span class="font-medium whitespace-nowrap">Nusrat J.</span></div></td>
+                <td class="whitespace-nowrap">HP Monitor 24"</td>
+                <td class="text-slate-400">Monitor</td>
+                <td class="text-slate-400 whitespace-nowrap">11 Jan 2026</td>
+                <td class="text-slate-500">—</td>
+                <td><span class="chip chip-pending">Pending</span></td>
+                <td class="text-slate-400 text-xs">—</td>
+                <td><div class="flex gap-1.5"><button class="btn-approve">✓</button><button class="btn-reject">✕</button><button class="btn-assign">⚙</button></div></td>
+              </tr>
+              <tr>
+                <td class="font-mono text-xs text-slate-500">#0039</td>
+                <td><div class="flex items-center gap-2"><div class="w-7 h-7 rounded-lg bg-gradient-to-br from-orange-500 to-red-600 flex items-center justify-center text-xs font-bold text-white flex-shrink-0">RH</div><span class="font-medium whitespace-nowrap">Rafiq H.</span></div></td>
+                <td class="whitespace-nowrap">Canon PIXMA G3010</td>
+                <td class="text-slate-400">Printer</td>
+                <td class="text-slate-400 whitespace-nowrap">10 Jan 2026</td>
+                <td class="text-emerald-light font-semibold">৳7,500</td>
+                <td><span class="chip chip-completed">Completed</span></td>
+                <td class="text-slate-400 text-xs">Karim B.</td>
+                <td><div class="flex gap-1.5"><button class="btn-approve opacity-40">✓</button><button class="btn-reject opacity-40">✕</button><button class="btn-assign">⚙</button></div></td>
+              </tr>
+              <tr>
+                <td class="font-mono text-xs text-slate-500">#0038</td>
+                <td><div class="flex items-center gap-2"><div class="w-7 h-7 rounded-lg bg-gradient-to-br from-teal-500 to-teal-700 flex items-center justify-center text-xs font-bold text-white flex-shrink-0">SK</div><span class="font-medium whitespace-nowrap">Safwan K.</span></div></td>
+                <td class="whitespace-nowrap">Asus ROG Laptop</td>
+                <td class="text-slate-400">Laptop</td>
+                <td class="text-slate-400 whitespace-nowrap">9 Jan 2026</td>
+                <td class="text-emerald-light font-semibold">৳85,000</td>
+                <td><span class="chip chip-rejected">Rejected</span></td>
+                <td class="text-slate-400 text-xs">—</td>
+                <td><div class="flex gap-1.5"><button class="btn-approve">✓</button><button class="btn-reject opacity-40">✕</button><button class="btn-assign">⚙</button></div></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="px-6 py-4 border-t border-white/7 flex items-center justify-between">
+          <span class="text-xs text-slate-400">Showing 5 of 3,482</span>
+          <div class="flex gap-1">
+            <button class="w-8 h-8 rounded-lg bg-surface2 border border-white/7 text-sm text-slate-400 hover:bg-surface3 transition-colors">←</button>
+            <button class="w-8 h-8 rounded-lg bg-gradient-to-br from-emerald to-emerald-dark text-white text-sm font-bold">1</button>
+            <button class="w-8 h-8 rounded-lg bg-surface2 border border-white/7 text-sm text-slate-400 hover:bg-surface3 transition-colors">2</button>
+            <button class="w-8 h-8 rounded-lg bg-surface2 border border-white/7 text-sm text-slate-400 hover:bg-surface3 transition-colors">3</button>
+            <button class="w-8 h-8 rounded-lg bg-surface2 border border-white/7 text-sm text-slate-400 hover:bg-surface3 transition-colors">→</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Approval Queue + Live Activity -->
+      <div class="grid grid-cols-1 xl:grid-cols-2 gap-6">
+
+        <!-- Approval Queue -->
+        <div class="bg-surface1 border border-white/7 rounded-2xl overflow-hidden">
+          <div class="px-6 py-5 border-b border-white/7 flex items-center justify-between">
+            <div>
+              <h3 class="font-display font-bold text-white">Approval Queue</h3>
+              <p class="text-xs text-slate-400 mt-0.5">Needs immediate attention</p>
+            </div>
+            <span class="text-xs font-bold text-red-300 bg-red-500/15 border border-red-500/25 px-3 py-1.5 rounded-full">6 Urgent</span>
+          </div>
+          <div class="p-5 space-y-3">
+            <div class="flex items-start gap-4 bg-surface2 border border-white/7 rounded-xl p-4">
+              <div class="w-10 h-10 rounded-xl bg-surface3 flex items-center justify-center text-xl flex-shrink-0">💻</div>
+              <div class="flex-1 min-w-0">
+                <div class="flex items-start justify-between gap-2 flex-wrap">
+                  <div><div class="text-sm font-semibold text-white">Dell XPS 15 · 2022</div><div class="text-xs text-slate-400 mt-0.5">Masud Karim · Dhaka Gulshan</div></div>
+                  <span class="chip chip-review text-[10px] flex-shrink-0">Review</span>
+                </div>
+                <div class="flex items-center justify-between mt-3 flex-wrap gap-2">
+                  <span class="text-sm font-bold text-emerald-light">৳78,000</span>
+                  <div class="flex gap-2"><button class="btn-approve">✓ Approve</button><button class="btn-reject">✕ Reject</button></div>
+                </div>
+              </div>
+            </div>
+            <div class="flex items-start gap-4 bg-surface2 border border-white/7 rounded-xl p-4">
+              <div class="w-10 h-10 rounded-xl bg-surface3 flex items-center justify-center text-xl flex-shrink-0">📱</div>
+              <div class="flex-1 min-w-0">
+                <div class="flex items-start justify-between gap-2 flex-wrap">
+                  <div><div class="text-sm font-semibold text-white">iPhone 14 Pro · 2023</div><div class="text-xs text-slate-400 mt-0.5">Nusrat Jahan · Chittagong</div></div>
+                  <span class="chip chip-pending text-[10px] flex-shrink-0">Pending</span>
+                </div>
+                <div class="flex items-center justify-between mt-3 flex-wrap gap-2">
+                  <span class="text-sm font-bold text-emerald-light">৳95,000</span>
+                  <div class="flex gap-2"><button class="btn-approve">✓ Approve</button><button class="btn-reject">✕ Reject</button></div>
+                </div>
+              </div>
+            </div>
+            <div class="flex items-start gap-4 bg-surface2 border border-white/7 rounded-xl p-4">
+              <div class="w-10 h-10 rounded-xl bg-surface3 flex items-center justify-center text-xl flex-shrink-0">🖥️</div>
+              <div class="flex-1 min-w-0">
+                <div class="flex items-start justify-between gap-2 flex-wrap">
+                  <div><div class="text-sm font-semibold text-white">Asus ProArt Display · 2021</div><div class="text-xs text-slate-400 mt-0.5">Rafiq Hossain · Sylhet</div></div>
+                  <span class="chip chip-review text-[10px] flex-shrink-0">Review</span>
+                </div>
+                <div class="flex items-center justify-between mt-3 flex-wrap gap-2">
+                  <span class="text-sm font-bold text-emerald-light">৳34,500</span>
+                  <div class="flex gap-2"><button class="btn-approve">✓ Approve</button><button class="btn-reject">✕ Reject</button></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Live Activity Feed -->
+        <div class="bg-surface1 border border-white/7 rounded-2xl overflow-hidden">
+          <div class="px-6 py-5 border-b border-white/7 flex items-center justify-between">
+            <div>
+              <h3 class="font-display font-bold text-white">Live Activity</h3>
+              <p class="text-xs text-slate-400 mt-0.5">Real-time platform events</p>
+            </div>
+            <div class="flex items-center gap-1.5 text-xs text-emerald-light font-semibold"><span class="w-2 h-2 rounded-full bg-emerald-mid pulse-dot"></span>Live</div>
+          </div>
+          <div class="p-5 space-y-3">
+            <div class="flex items-start gap-3">
+              <div class="w-8 h-8 rounded-xl bg-emerald-glow border border-emerald-mid/30 flex items-center justify-center text-sm flex-shrink-0 mt-0.5">📦</div>
+              <div><div class="text-sm text-white">New submission: <strong>Lenovo ThinkPad</strong></div><div class="text-xs text-slate-500 mt-0.5">Sharmin R. · 2 min ago</div></div>
+            </div>
+            <div class="flex items-start gap-3">
+              <div class="w-8 h-8 rounded-xl bg-blue-500/15 border border-blue-500/25 flex items-center justify-center text-sm flex-shrink-0 mt-0.5">🚚</div>
+              <div><div class="text-sm text-white">Pickup completed: <strong>#0037</strong></div><div class="text-xs text-slate-500 mt-0.5">Agent Rahim A. · 8 min ago</div></div>
+            </div>
+            <div class="flex items-start gap-3">
+              <div class="w-8 h-8 rounded-xl bg-gold/15 border border-gold/25 flex items-center justify-center text-sm flex-shrink-0 mt-0.5">💰</div>
+              <div><div class="text-sm text-white">Payment released: <strong>৳52,000</strong> to Masud K.</div><div class="text-xs text-slate-500 mt-0.5">15 min ago</div></div>
+            </div>
+            <div class="flex items-start gap-3">
+              <div class="w-8 h-8 rounded-xl bg-purple-500/15 border border-purple-500/25 flex items-center justify-center text-sm flex-shrink-0 mt-0.5">👤</div>
+              <div><div class="text-sm text-white">New user registered: <strong>Tanzim A.</strong></div><div class="text-xs text-slate-500 mt-0.5">Dhaka Mirpur · 22 min ago</div></div>
+            </div>
+            <div class="flex items-start gap-3">
+              <div class="w-8 h-8 rounded-xl bg-red-500/15 border border-red-500/25 flex items-center justify-center text-sm flex-shrink-0 mt-0.5">⚠️</div>
+              <div><div class="text-sm text-white">Pickup overdue: <strong>#0035</strong></div><div class="text-xs text-red-400 mt-0.5 font-medium">Agent unresponsive · 45 min ago</div></div>
+            </div>
+            <div class="flex items-start gap-3">
+              <div class="w-8 h-8 rounded-xl bg-teal-500/15 border border-teal-500/25 flex items-center justify-center text-sm flex-shrink-0 mt-0.5">🌿</div>
+              <div><div class="text-sm text-white">CO₂ milestone: <strong>1,200 tonnes</strong> offset</div><div class="text-xs text-slate-500 mt-0.5">Platform total · 1 hr ago</div></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Agent Performance -->
+      <div class="bg-surface1 border border-white/7 rounded-2xl overflow-hidden">
+        <div class="px-6 py-5 border-b border-white/7">
+          <h3 class="font-display font-bold text-white">Top Agent Performance</h3>
+          <p class="text-xs text-slate-400 mt-0.5">This month</p>
+        </div>
+        <div class="p-5 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+          <div class="bg-surface2 border border-white/7 rounded-xl p-4 flex items-center gap-4">
+            <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-emerald to-emerald-dark flex items-center justify-center font-bold text-white text-sm flex-shrink-0">RA</div>
+            <div class="flex-1 min-w-0">
+              <div class="text-sm font-semibold text-white">Rahim A.</div>
+              <div class="text-xs text-slate-400">48 pickups · 4.9★</div>
+              <div class="progress-track mt-2" style="height:3px"><div class="progress-fill" style="width:92%"></div></div>
+            </div>
+          </div>
+          <div class="bg-surface2 border border-white/7 rounded-xl p-4 flex items-center gap-4">
+            <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-blue-500 to-blue-700 flex items-center justify-center font-bold text-white text-sm flex-shrink-0">KB</div>
+            <div class="flex-1 min-w-0">
+              <div class="text-sm font-semibold text-white">Karim B.</div>
+              <div class="text-xs text-slate-400">44 pickups · 4.8★</div>
+              <div class="progress-track mt-2" style="height:3px"><div class="progress-fill" style="width:84%"></div></div>
+            </div>
+          </div>
+          <div class="bg-surface2 border border-white/7 rounded-xl p-4 flex items-center gap-4">
+            <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-purple-500 to-purple-700 flex items-center justify-center font-bold text-white text-sm flex-shrink-0">SM</div>
+            <div class="flex-1 min-w-0">
+              <div class="text-sm font-semibold text-white">Sabbir M.</div>
+              <div class="text-xs text-slate-400">39 pickups · 4.7★</div>
+              <div class="progress-track mt-2" style="height:3px"><div class="progress-fill" style="width:76%"></div></div>
+            </div>
+          </div>
+          <div class="bg-surface2 border border-white/7 rounded-xl p-4 flex items-center gap-4">
+            <div class="w-10 h-10 rounded-xl flex items-center justify-center font-bold text-white text-sm flex-shrink-0" style="background:linear-gradient(135deg,#d97706,#f59e0b)">JA</div>
+            <div class="flex-1 min-w-0">
+              <div class="text-sm font-semibold text-white">Jamal A.</div>
+              <div class="text-xs text-slate-400">36 pickups · 4.7★</div>
+              <div class="progress-track mt-2" style="height:3px"><div class="progress-fill" style="width:70%;background:linear-gradient(90deg,#d97706,#fbbf24)"></div></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </main>
+  </div>
+</div>
+
+<!-- Mobile bottom nav -->
+<nav class="md:hidden fixed bottom-0 left-0 right-0 bg-surface0 border-t border-white/7 z-[500] flex">
+  <a href="admin.html" class="flex-1 flex flex-col items-center justify-center gap-1 py-3 text-gold-mid"><span class="text-lg">📊</span><span class="text-[9px] font-semibold">Dashboard</span></a>
+  <a href="#" class="flex-1 flex flex-col items-center justify-center gap-1 py-3 text-slate-500"><span class="text-lg">📥</span><span class="text-[9px] font-semibold">Submissions</span></a>
+  <a href="#" class="flex-1 flex flex-col items-center justify-center gap-1 py-3 text-slate-500"><span class="text-lg">✅</span><span class="text-[9px] font-semibold">Approvals</span></a>
+  <a href="#" class="flex-1 flex flex-col items-center justify-center gap-1 py-3 text-slate-500"><span class="text-lg">👥</span><span class="text-[9px] font-semibold">Users</span></a>
+  <a href="#" class="flex-1 flex flex-col items-center justify-center gap-1 py-3 text-slate-500"><span class="text-lg">⚙️</span><span class="text-[9px] font-semibold">Settings</span></a>
+</nav>
+
+<div id="sidebar-backdrop" class="hidden fixed inset-0 bg-black/60 z-[499] backdrop-blur-sm" onclick="closeSidebar()"></div>
+
+<script>
+document.getElementById('admin-date').textContent = new Date().toLocaleDateString('en-GB', {weekday:'short',day:'numeric',month:'short',year:'numeric'});
+function toggleSidebar() {
+  const s = document.getElementById('sidebar');
+  const b = document.getElementById('sidebar-backdrop');
+  const isOpen = s.classList.toggle('open');
+  b.classList.toggle('hidden', !isOpen);
+}
+function closeSidebar() {
+  document.getElementById('sidebar').classList.remove('open');
+  document.getElementById('sidebar-backdrop').classList.add('hidden');
+}
+</script>
+</body>
+</html>
