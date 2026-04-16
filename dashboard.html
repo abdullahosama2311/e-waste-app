@@ -35,7 +35,7 @@
   <!-- ══ SIDEBAR ══ -->
   <aside class="sidebar" id="sidebar">
     <div class="sidebar-active-bar" id="sbar"></div>
-    <a href="index.html" class="flex items-center gap-3 px-5 h-[68px] border-b border-white/7 flex-shrink-0">
+    <a href="index.html" class="flex items-center gap-3 px-5 h-[72px] border-b border-white/7 flex-shrink-0">
       <div class="w-9 h-9 rounded-xl bg-gradient-to-br from-emerald to-emerald-dark flex items-center justify-center text-lg shadow-[0_0_15px_rgba(16,185,129,.3)] flex-shrink-0">♻️</div>
       <span class="sidebar-label font-display font-black text-lg text-white">Revol<span class="text-emerald-mid">Tech</span></span>
     </a>
@@ -85,21 +85,60 @@
   <div class="flex flex-col min-h-screen min-w-0">
 
     <!-- TOPBAR -->
-    <header class="topbar">
-      <button class="mob-hamburger" onclick="toggleSidebar()">☰</button>
-      <div class="topbar-mob-title">Dashboard</div>
-      <div class="hidden md:flex flex-1 max-w-md">
-        <div class="relative w-full">
-          <span class="absolute left-4 top-1/2 -translate-y-1/2 text-slate-500 text-sm">🔍</span>
-          <input type="search" placeholder="Search devices, submissions…" class="w-full bg-surface2 border border-white/7 text-sm text-white placeholder-slate-500 rounded-xl py-2.5 pl-11 pr-4 focus:outline-none focus:border-emerald-mid/50 transition-colors"/>
+    <header class="topbar relative">
+
+      <!-- Left: hamburger + breadcrumb -->
+      <div class="flex items-center gap-3 flex-shrink-0">
+        <button class="mob-hamburger" onclick="toggleSidebar()" aria-label="Open menu">
+          <svg width="18" height="14" viewBox="0 0 18 14" fill="none"><path d="M1 1h16M1 7h10M1 13h16" stroke="currentColor" stroke-width="1.75" stroke-linecap="round"/></svg>
+        </button>
+        <!-- Desktop breadcrumb -->
+        <nav class="topbar-breadcrumb hidden md:flex items-center gap-1.5 text-sm select-none">
+          <span class="text-slate-500 hover:text-slate-300 transition-colors cursor-pointer">RevolTech</span>
+          <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M5 3l4 4-4 4" stroke="#475569" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          <span class="text-white font-semibold">Dashboard</span>
+        </nav>
+        <!-- Mobile title -->
+        <div class="topbar-mob-title">
+          <div class="w-7 h-7 rounded-lg flex items-center justify-center text-sm flex-shrink-0" style="background:linear-gradient(135deg,#059669,#064e3b);">&#9851;</div>
+          Dashboard
         </div>
       </div>
-      <div class="flex items-center gap-3 ml-auto">
-        <a href="submit-product.html" class="hidden sm:flex items-center gap-2 bg-gradient-to-br from-emerald to-emerald-dark text-white text-sm font-semibold px-4 py-2.5 rounded-xl hover:-translate-y-0.5 transition-all shadow-[0_0_15px_rgba(16,185,129,.2)]">+ Submit Device</a>
-        <button class="relative w-9 h-9 rounded-xl bg-surface2 border border-white/7 flex items-center justify-center text-base hover:bg-surface3 transition-colors">
-          🔔<span class="absolute -top-0.5 -right-0.5 w-4 h-4 rounded-full bg-red-500 text-[9px] text-white flex items-center justify-center font-bold">2</span>
+
+      <!-- Center: search -->
+      <div class="topbar-search flex-1 max-w-lg mx-auto hidden md:block">
+        <div class="relative w-full">
+          <svg class="absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-500 pointer-events-none" width="15" height="15" viewBox="0 0 15 15" fill="none"><circle cx="6.5" cy="6.5" r="5" stroke="currentColor" stroke-width="1.5"/><path d="m11 11 2.5 2.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+          <input type="search" id="topbar-q" placeholder="Search devices, submissions, offers&hellip;" class="w-full text-sm text-white placeholder-slate-500 rounded-xl py-2.5 pl-10 pr-16 outline-none transition-all" style="background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.08);" onfocus="this.style.borderColor='rgba(16,185,129,.4)';this.style.background='rgba(16,185,129,.05)';this.style.boxShadow='0 0 0 3px rgba(16,185,129,.1)'" onblur="this.style.borderColor='rgba(255,255,255,.08)';this.style.background='rgba(255,255,255,.05)';this.style.boxShadow=''"/>
+          <kbd class="absolute right-3 top-1/2 -translate-y-1/2 text-[10px] text-slate-600 border border-white/10 rounded-md px-1.5 py-0.5 font-mono pointer-events-none select-none">&#8984;K</kbd>
+        </div>
+      </div>
+
+      <!-- Right actions -->
+      <div class="flex items-center gap-2 ml-auto flex-shrink-0">
+        <!-- Mobile search -->
+        <button class="md:hidden w-10 h-10 rounded-xl flex items-center justify-center text-slate-400 hover:text-white transition-colors" style="background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.08);">
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><circle cx="6.5" cy="6.5" r="5" stroke="currentColor" stroke-width="1.5"/><path d="m11 11 2.5 2.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
         </button>
-        <div class="w-9 h-9 rounded-xl bg-gradient-to-br from-emerald to-emerald-dark flex items-center justify-center font-bold text-white text-sm cursor-pointer">SR</div>
+        <!-- Submit CTA -->
+        <a href="submit-product.html" class="topbar-cta-btn hidden sm:inline-flex items-center gap-1.5 text-white text-sm font-bold px-4 py-2.5 rounded-xl whitespace-nowrap" style="background:linear-gradient(135deg,#059669,#047857);box-shadow:0 0 20px rgba(16,185,129,.25),0 0 0 1px rgba(16,185,129,.2);transition:box-shadow .2s,transform .2s;" onmouseover="this.style.boxShadow='0 0 28px rgba(16,185,129,.4),0 0 0 1px rgba(16,185,129,.35)';this.style.transform='translateY(-1px)'" onmouseout="this.style.boxShadow='0 0 20px rgba(16,185,129,.25),0 0 0 1px rgba(16,185,129,.2)';this.style.transform=''">
+          <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M6 1v10M1 6h10" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+          Submit Device
+        </a>
+        <!-- Notifications -->
+        <button class="relative w-10 h-10 rounded-xl flex items-center justify-center text-slate-400 hover:text-white transition-colors" style="background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.08);">
+          <svg width="18" height="18" viewBox="0 0 18 18" fill="none"><path d="M9 2a5.5 5.5 0 0 1 5.5 5.5c0 3.5 1 4.5 1 4.5H2.5s1-1 1-4.5A5.5 5.5 0 0 1 9 2Z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/><path d="M7.5 14.5a1.5 1.5 0 0 0 3 0" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+          <span class="absolute -top-1 -right-1 flex items-center justify-center font-black text-[9px] text-white rounded-full bg-red-500" style="width:18px;height:18px;border:2px solid #0b0f1a;">2</span>
+        </button>
+        <!-- User avatar + name -->
+        <div class="flex items-center gap-2.5 cursor-pointer group pl-1">
+          <div class="w-9 h-9 rounded-xl flex items-center justify-center font-black text-white text-xs flex-shrink-0" style="background:linear-gradient(135deg,#059669,#064e3b);box-shadow:0 0 12px rgba(16,185,129,.3);">SR</div>
+          <div class="hidden lg:block leading-tight">
+            <div class="text-sm font-bold text-white group-hover:text-emerald-light transition-colors">Sharmin</div>
+            <div class="text-[10px] text-slate-500">Premium &bull; Active</div>
+          </div>
+          <svg class="hidden lg:block flex-shrink-0" width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M3 5l3 3 3-3" stroke="#64748b" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </div>
       </div>
     </header>
 
