@@ -28,222 +28,326 @@
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&family=Inter:wght@400;500;600&display=swap" rel="stylesheet"/>
   <link rel="stylesheet" href="base.css"/>
   <style>
-    .gradient-text { background:linear-gradient(135deg,#10b981,#34d399); -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text; }
-    .brand-bg { background:linear-gradient(135deg,#022c22 0%,#064e3b 50%,#0b0f1a 100%); }
-    .tab-active { color:#fff; background:rgba(255,255,255,.07); border-color:rgba(255,255,255,.12); }
-    .tab-inactive { color:#64748b; background:transparent; border-color:transparent; }
-    .str-weak   { background-color:#ef4444; }
-    .str-fair   { background-color:#f59e0b; }
-    .str-good   { background-color:#10b981; }
-    .str-strong { background-color:#34d399; }
+    body { background: #070b14; overflow-x: hidden; }
+
+    /* ── Animated Background Orbs ── */
+    .orb { position:fixed;border-radius:50%;filter:blur(90px);pointer-events:none;z-index:0;will-change:transform; }
+    .orb-1 { width:600px;height:600px;background:radial-gradient(circle,rgba(5,150,105,.35) 0%,transparent 70%);top:-150px;left:-150px;animation:orbDrift1 18s ease-in-out infinite; }
+    .orb-2 { width:500px;height:500px;background:radial-gradient(circle,rgba(16,185,129,.2) 0%,transparent 70%);bottom:-100px;right:-100px;animation:orbDrift2 22s ease-in-out infinite; }
+    .orb-3 { width:350px;height:350px;background:radial-gradient(circle,rgba(217,119,6,.18) 0%,transparent 70%);top:40%;left:50%;animation:orbDrift3 25s ease-in-out infinite; }
+    .orb-4 { width:280px;height:280px;background:radial-gradient(circle,rgba(99,102,241,.15) 0%,transparent 70%);top:20%;right:20%;animation:orbDrift4 20s ease-in-out infinite; }
+    @keyframes orbDrift1 { 0%,100%{transform:translate(0,0) scale(1)} 33%{transform:translate(80px,60px) scale(1.1)} 66%{transform:translate(-40px,100px) scale(.95)} }
+    @keyframes orbDrift2 { 0%,100%{transform:translate(0,0) scale(1)} 50%{transform:translate(-100px,-80px) scale(1.15)} }
+    @keyframes orbDrift3 { 0%,100%{transform:translate(-50%,-50%) scale(1)} 33%{transform:translate(calc(-50% + 60px),calc(-50% - 40px)) scale(1.1)} 66%{transform:translate(calc(-50% - 80px),calc(-50% + 60px)) scale(.9)} }
+    @keyframes orbDrift4 { 0%,100%{transform:translate(0,0) scale(1)} 50%{transform:translate(40px,60px) scale(1.2)} }
+
+    /* ── Dot grid ── */
+    .grid-bg { position:fixed;inset:0;z-index:0;pointer-events:none;background-image:radial-gradient(circle,rgba(255,255,255,.05) 1px,transparent 1px);background-size:32px 32px; }
+    .grid-bg::after { content:'';position:absolute;inset:0;background:radial-gradient(ellipse 80% 80% at 50% 50%,transparent 30%,#070b14 100%); }
+
+    /* ── Glassmorphism ── */
+    .glass-panel { background:rgba(255,255,255,.04);backdrop-filter:blur(24px);-webkit-backdrop-filter:blur(24px);border:1px solid rgba(255,255,255,.09); }
+    .glass-card  { background:rgba(255,255,255,.045);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border:1px solid rgba(255,255,255,.08);transition:transform .25s,border-color .25s,box-shadow .25s; }
+    .glass-card:hover { transform:translateY(-2px);border-color:rgba(16,185,129,.28);box-shadow:0 12px 40px rgba(0,0,0,.35),0 0 0 1px rgba(16,185,129,.12); }
+
+    /* ── Inputs ── */
+    .glass-input { width:100%;background:rgba(255,255,255,.05);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);border:1px solid rgba(255,255,255,.1);border-radius:12px;padding:.8rem 1rem;font-size:.875rem;color:#e2e8f0;font-family:'Inter',sans-serif;transition:border-color .2s,box-shadow .2s,background .2s;outline:none; }
+    .glass-input::placeholder { color:rgba(148,163,184,.5); }
+    .glass-input:focus { border-color:rgba(16,185,129,.55);background:rgba(16,185,129,.06);box-shadow:0 0 0 3px rgba(16,185,129,.15),0 0 20px rgba(16,185,129,.1); }
+
+    /* ── Text gradients ── */
+    .gradient-text { background:linear-gradient(135deg,#10b981 0%,#34d399 60%,#6ee7b7 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text; }
+
+    /* ── Tabs ── */
+    .auth-tab-bar { background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.07); }
+    .tab-active   { color:#fff;background:rgba(16,185,129,.15);border:1px solid rgba(16,185,129,.3);box-shadow:0 0 20px rgba(16,185,129,.15); }
+    .tab-inactive { color:#64748b;background:transparent;border:1px solid transparent; }
+
+    /* ── Buttons ── */
+    .btn-primary { background:linear-gradient(135deg,#059669 0%,#10b981 100%);box-shadow:0 4px 24px rgba(16,185,129,.3),0 0 0 1px rgba(16,185,129,.2);transition:transform .2s,box-shadow .2s; }
+    .btn-primary:hover { transform:translateY(-2px);box-shadow:0 8px 32px rgba(16,185,129,.45),0 0 0 1px rgba(16,185,129,.35); }
+
+    .demo-btn-dash  { background:rgba(16,185,129,.1);border:1px solid rgba(16,185,129,.3);color:#34d399;transition:all .25s ease;backdrop-filter:blur(12px); }
+    .demo-btn-dash:hover  { background:rgba(16,185,129,.2);border-color:rgba(16,185,129,.55);box-shadow:0 0 24px rgba(16,185,129,.25),0 4px 16px rgba(0,0,0,.3);transform:translateY(-2px);color:#6ee7b7; }
+    .demo-btn-admin { background:rgba(217,119,6,.1);border:1px solid rgba(245,158,11,.3);color:#fbbf24;transition:all .25s ease;backdrop-filter:blur(12px); }
+    .demo-btn-admin:hover { background:rgba(217,119,6,.2);border-color:rgba(245,158,11,.55);box-shadow:0 0 24px rgba(217,119,6,.25),0 4px 16px rgba(0,0,0,.3);transform:translateY(-2px);color:#fcd34d; }
+
+    .social-btn { background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);transition:all .2s;backdrop-filter:blur(8px); }
+    .social-btn:hover { background:rgba(255,255,255,.1);border-color:rgba(255,255,255,.2);transform:translateY(-1px); }
+
+    .device-float { background:rgba(255,255,255,.06);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);border:1px solid rgba(255,255,255,.1);transition:border-color .3s,box-shadow .3s; }
+    .device-float:hover { border-color:rgba(16,185,129,.3);box-shadow:0 8px 32px rgba(0,0,0,.3),0 0 16px rgba(16,185,129,.1); }
+
+    .neon-divider { height:1px;background:linear-gradient(90deg,transparent,rgba(16,185,129,.4),transparent); }
+    .stat-glass { background:rgba(255,255,255,.05);backdrop-filter:blur(12px);border:1px solid rgba(255,255,255,.08); }
+    .trust-badge { display:flex;align-items:center;gap:6px;font-size:.7rem;color:rgba(148,163,184,.7);padding:4px 10px;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.07);border-radius:99px;backdrop-filter:blur(8px); }
+
+    /* ── Password strength ── */
+    .str-weak   { background:#ef4444;box-shadow:0 0 8px rgba(239,68,68,.4); }
+    .str-fair   { background:#f59e0b;box-shadow:0 0 8px rgba(245,158,11,.4); }
+    .str-good   { background:#10b981;box-shadow:0 0 8px rgba(16,185,129,.4); }
+    .str-strong { background:#34d399;box-shadow:0 0 12px rgba(52,211,153,.5); }
+
+    ::-webkit-scrollbar { width:4px; }
+    ::-webkit-scrollbar-track { background:transparent; }
+    ::-webkit-scrollbar-thumb { background:rgba(255,255,255,.1);border-radius:99px; }
   </style>
 </head>
-<body class="bg-graphite text-slate-200 min-h-screen">
-<div class="flex min-h-screen">
+<body class="min-h-screen font-body">
 
-  <!-- ══ LEFT BRAND PANEL ══ -->
-  <div class="hidden lg:flex flex-col justify-between w-[520px] flex-shrink-0 brand-bg px-12 py-12 relative overflow-hidden">
-    <div class="absolute inset-0 opacity-30" style="background:radial-gradient(ellipse 80% 60% at 50% 30%, rgba(16,185,129,.3) 0%, transparent 60%)"></div>
-    <div class="absolute bottom-0 right-0 w-[400px] h-[400px] rounded-full bg-gradient-radial from-emerald/15 to-transparent filter blur-[80px] pointer-events-none animate-mesh"></div>
-    <div class="relative z-10">
-      <a href="index.html" class="flex items-center gap-3 mb-16">
-        <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-emerald to-emerald-dark flex items-center justify-center text-xl shadow-[0_0_20px_rgba(16,185,129,.4)]">♻️</div>
-        <span class="font-display font-black text-xl text-white">Revol<span class="text-emerald-mid">Tech</span></span>
-      </a>
-      <div class="mb-10">
-        <h1 class="font-display font-black text-4xl text-white leading-tight mb-4">Your old electronics<br/>deserve a <span class="gradient-text">better future.</span></h1>
-        <p class="text-slate-400 text-base leading-relaxed">Join 24,000+ users who turned dead devices into real money — while helping the planet.</p>
-      </div>
-      <div class="space-y-4 mb-12">
-        <div class="flex items-start gap-4">
-          <div class="w-9 h-9 rounded-xl flex-shrink-0 bg-emerald-glow border border-emerald-mid/30 flex items-center justify-center text-base">💰</div>
-          <div><div class="text-sm font-semibold text-white mb-0.5">Fair market valuations</div><div class="text-xs text-slate-400">AI-backed pricing based on live market data</div></div>
+  <!-- Animated Background -->
+  <div class="orb orb-1"></div>
+  <div class="orb orb-2"></div>
+  <div class="orb orb-3"></div>
+  <div class="orb orb-4"></div>
+  <div class="grid-bg"></div>
+
+  <!-- Main Layout -->
+  <div class="relative z-10 flex min-h-screen">
+
+    <!-- ════ LEFT BRAND PANEL ════ -->
+    <div class="hidden lg:flex flex-col w-[520px] flex-shrink-0 px-12 py-12 relative overflow-hidden">
+      <div class="absolute inset-0 glass-panel" style="border-right:1px solid rgba(16,185,129,.1);"></div>
+      <div class="absolute top-0 left-0 right-0 h-[500px] pointer-events-none" style="background:radial-gradient(ellipse 100% 60% at 30% 0%,rgba(5,150,105,.2) 0%,transparent 70%);"></div>
+
+      <div class="relative z-10 flex flex-col h-full">
+        <!-- Logo -->
+        <a href="index.html" class="flex items-center gap-3 mb-12">
+          <div class="w-11 h-11 rounded-2xl flex items-center justify-center text-xl" style="background:linear-gradient(135deg,#059669,#064e3b);box-shadow:0 0 24px rgba(16,185,129,.45),0 0 0 1px rgba(16,185,129,.25);">&#9851;</div>
+          <span class="font-display font-black text-2xl text-white">Revol<span class="gradient-text">Tech</span></span>
+        </a>
+
+        <!-- Headline -->
+        <div class="mb-10">
+          <div class="inline-flex items-center gap-2 px-3 py-1.5 rounded-full mb-5" style="background:rgba(16,185,129,.1);border:1px solid rgba(16,185,129,.2);">
+            <span class="w-1.5 h-1.5 rounded-full bg-emerald-mid pulse-dot"></span>
+            <span class="text-xs font-semibold text-emerald-light tracking-wide">48,500+ Devices Processed</span>
+          </div>
+          <h1 class="font-display font-black text-[2.3rem] text-white leading-[1.15] mb-4">Turn dead devices<br/>into <span class="gradient-text">real impact.</span></h1>
+          <p class="text-slate-400 text-[.93rem] leading-relaxed">Bangladesh's #1 certified e-waste platform &mdash; smart valuations, free pickup, instant bKash payout.</p>
         </div>
-        <div class="flex items-start gap-4">
-          <div class="w-9 h-9 rounded-xl flex-shrink-0 bg-emerald-glow border border-emerald-mid/30 flex items-center justify-center text-base">🚚</div>
-          <div><div class="text-sm font-semibold text-white mb-0.5">Free doorstep pickup</div><div class="text-xs text-slate-400">Anywhere in Bangladesh, next-day guaranteed</div></div>
+
+        <!-- Features -->
+        <div class="space-y-3 mb-10">
+          <div class="glass-card rounded-2xl p-4 flex items-center gap-4">
+            <div class="w-10 h-10 rounded-xl flex-shrink-0 flex items-center justify-center text-xl" style="background:rgba(16,185,129,.12);border:1px solid rgba(16,185,129,.2);">💰</div>
+            <div><div class="text-sm font-semibold text-white">AI-Backed Valuations</div><div class="text-xs text-slate-400 mt-0.5">Live market pricing — never get lowballed again</div></div>
+          </div>
+          <div class="glass-card rounded-2xl p-4 flex items-center gap-4">
+            <div class="w-10 h-10 rounded-xl flex-shrink-0 flex items-center justify-center text-xl" style="background:rgba(16,185,129,.12);border:1px solid rgba(16,185,129,.2);">🚚</div>
+            <div><div class="text-sm font-semibold text-white">Free Doorstep Pickup</div><div class="text-xs text-slate-400 mt-0.5">Anywhere in Bangladesh, next-day scheduling</div></div>
+          </div>
+          <div class="glass-card rounded-2xl p-4 flex items-center gap-4">
+            <div class="w-10 h-10 rounded-xl flex-shrink-0 flex items-center justify-center text-xl" style="background:rgba(16,185,129,.12);border:1px solid rgba(16,185,129,.2);">⚡</div>
+            <div><div class="text-sm font-semibold text-white">Instant bKash Payout</div><div class="text-xs text-slate-400 mt-0.5">Funds hit your wallet the same day of pickup</div></div>
+          </div>
+          <div class="glass-card rounded-2xl p-4 flex items-center gap-4">
+            <div class="w-10 h-10 rounded-xl flex-shrink-0 flex items-center justify-center text-xl" style="background:rgba(16,185,129,.12);border:1px solid rgba(16,185,129,.2);">🔒</div>
+            <div><div class="text-sm font-semibold text-white">Certified Data Wipe</div><div class="text-xs text-slate-400 mt-0.5">DoD-grade erase with government certificate</div></div>
+          </div>
         </div>
-        <div class="flex items-start gap-4">
-          <div class="w-9 h-9 rounded-xl flex-shrink-0 bg-emerald-glow border border-emerald-mid/30 flex items-center justify-center text-base">⚡</div>
-          <div><div class="text-sm font-semibold text-white mb-0.5">Instant bKash payout</div><div class="text-xs text-slate-400">Same day payment to your mobile wallet</div></div>
+
+        <!-- Floating device cards -->
+        <div class="flex flex-wrap gap-2.5 mb-10">
+          <div class="device-float flex items-center gap-2.5 rounded-2xl px-4 py-3 animate-float">
+            <span class="text-xl">💻</span>
+            <div><div class="text-xs font-bold text-white">Dell Inspiron</div><div class="text-[10px] font-medium text-emerald-light">৳42,000 offer</div></div>
+          </div>
+          <div class="device-float flex items-center gap-2.5 rounded-2xl px-4 py-3 animate-float-2">
+            <span class="text-xl">📱</span>
+            <div><div class="text-xs font-bold text-white">Samsung S22</div><div class="text-[10px] font-medium text-emerald-light">৳52,000 offer</div></div>
+          </div>
+          <div class="device-float flex items-center gap-2.5 rounded-2xl px-4 py-3 animate-float-3">
+            <span class="text-xl">🖥️</span>
+            <div><div class="text-xs font-bold text-white">HP Monitor</div><div class="text-[10px] font-medium text-emerald-light">৳8,500 offer</div></div>
+          </div>
         </div>
-        <div class="flex items-start gap-4">
-          <div class="w-9 h-9 rounded-xl flex-shrink-0 bg-emerald-glow border border-emerald-mid/30 flex items-center justify-center text-base">🔒</div>
-          <div><div class="text-sm font-semibold text-white mb-0.5">Certified data destruction</div><div class="text-xs text-slate-400">Government-compliant wipe with certificate</div></div>
-        </div>
-      </div>
-      <!-- Floating device cards -->
-      <div class="flex gap-3 flex-wrap">
-        <div class="flex items-center gap-2 bg-white/8 border border-white/12 rounded-xl px-4 py-2.5 animate-float">
-          <span class="text-lg">💻</span>
-          <div><div class="text-xs font-semibold text-white">Dell Inspiron</div><div class="text-[10px] text-emerald-light">৳42,000 offer</div></div>
-        </div>
-        <div class="flex items-center gap-2 bg-white/8 border border-white/12 rounded-xl px-4 py-2.5 animate-float-2">
-          <span class="text-lg">📱</span>
-          <div><div class="text-xs font-semibold text-white">Samsung S22</div><div class="text-[10px] text-emerald-light">৳52,000 offer</div></div>
-        </div>
-        <div class="flex items-center gap-2 bg-white/8 border border-white/12 rounded-xl px-4 py-2.5 animate-float-3">
-          <span class="text-lg">🖥️</span>
-          <div><div class="text-xs font-semibold text-white">HP Monitor</div><div class="text-[10px] text-emerald-light">৳8,500 offer</div></div>
+
+        <!-- Stats -->
+        <div class="grid grid-cols-3 gap-3 mt-auto">
+          <div class="stat-glass rounded-2xl p-3 text-center">
+            <div class="font-display font-black text-xl gradient-text">48K+</div>
+            <div class="text-[10px] text-slate-400 mt-0.5">Devices</div>
+          </div>
+          <div class="stat-glass rounded-2xl p-3 text-center">
+            <div class="font-display font-black text-xl gradient-text">1,200T</div>
+            <div class="text-[10px] text-slate-400 mt-0.5">CO₂ Saved</div>
+          </div>
+          <div class="stat-glass rounded-2xl p-3 text-center">
+            <div class="font-display font-black text-xl gradient-text">24K</div>
+            <div class="text-[10px] text-slate-400 mt-0.5">Users</div>
+          </div>
         </div>
       </div>
     </div>
-    <div class="relative z-10">
-      <div class="flex flex-wrap gap-4 text-xs text-slate-400">
-        <div class="flex items-center gap-1.5"><span class="w-4 h-4 rounded bg-emerald-glow border border-emerald-mid/30 flex items-center justify-center text-[8px] text-emerald-light">✓</span>ISO 14001 Certified</div>
-        <div class="flex items-center gap-1.5"><span class="w-4 h-4 rounded bg-emerald-glow border border-emerald-mid/30 flex items-center justify-center text-[8px] text-emerald-light">✓</span>BTRC Registered</div>
-        <div class="flex items-center gap-1.5"><span class="w-4 h-4 rounded bg-emerald-glow border border-emerald-mid/30 flex items-center justify-center text-[8px] text-emerald-light">✓</span>48,500+ Devices Processed</div>
-      </div>
-    </div>
-  </div>
 
-  <!-- ══ RIGHT AUTH PANEL ══ -->
-  <div class="flex-1 flex items-center justify-center px-5 py-10 bg-graphite overflow-y-auto">
-    <div class="w-full max-w-[420px]">
-      <!-- Mobile logo only -->
-      <div class="flex lg:hidden items-center justify-center gap-3 mb-8">
-        <div class="w-9 h-9 rounded-xl bg-gradient-to-br from-emerald to-emerald-dark flex items-center justify-center text-lg">♻️</div>
-        <span class="font-display font-black text-xl text-white">Revol<span class="text-emerald-mid">Tech</span></span>
-      </div>
+    <!-- ════ RIGHT AUTH PANEL ════ -->
+    <div class="flex-1 flex items-center justify-center px-5 py-10 overflow-y-auto">
+      <div class="w-full max-w-[440px]">
 
-      <div class="text-center mb-8">
-        <h2 class="font-display font-black text-3xl text-white mb-2">Welcome back 👋</h2>
-        <p class="text-sm text-slate-400">Sign in to your account or create a new one</p>
-      </div>
-
-      <!-- Tabs -->
-      <div class="flex border border-white/7 rounded-xl p-1 bg-surface1 mb-8">
-        <button id="tab-signin" onclick="switchTab('signin')" class="flex-1 py-2.5 text-sm font-semibold rounded-lg border transition-all tab-active">Sign In</button>
-        <button id="tab-register" onclick="switchTab('register')" class="flex-1 py-2.5 text-sm font-semibold rounded-lg border transition-all tab-inactive">Create Account</button>
-      </div>
-
-      <!-- ── Sign In Panel ── -->
-      <div id="panel-signin">
-        <div class="space-y-3 mb-6">
-          <button class="w-full flex items-center justify-center gap-3 bg-surface1 border border-white/10 hover:border-white/20 hover:bg-surface2 text-white text-sm font-semibold py-3 rounded-xl transition-all">
-            <span>📱</span> Continue with OTP (Phone)
-          </button>
-          <button class="w-full flex items-center justify-center gap-3 bg-surface1 border border-white/10 hover:border-white/20 hover:bg-surface2 text-white text-sm font-semibold py-3 rounded-xl transition-all">
-            <span>✉️</span> Continue with Magic Link
-          </button>
+        <!-- Mobile logo -->
+        <div class="flex lg:hidden items-center justify-center gap-3 mb-8">
+          <div class="w-10 h-10 rounded-2xl flex items-center justify-center text-xl" style="background:linear-gradient(135deg,#059669,#064e3b);box-shadow:0 0 20px rgba(16,185,129,.4);">&#9851;</div>
+          <span class="font-display font-black text-2xl text-white">Revol<span class="gradient-text">Tech</span></span>
         </div>
-        <div class="flex items-center gap-4 mb-6">
-          <div class="flex-1 h-px bg-white/7"></div>
-          <span class="text-xs text-slate-500 uppercase tracking-widest">or</span>
-          <div class="flex-1 h-px bg-white/7"></div>
-        </div>
-        <form onsubmit="handleSignIn(event)" class="space-y-4">
-          <div>
-            <label class="block text-xs font-semibold text-slate-400 mb-1.5 uppercase tracking-wide">Email Address</label>
-            <input type="email" class="inp" placeholder="you@example.com" required autocomplete="email"/>
+
+        <!-- ══ DEMO ACCESS BLOCK ══ -->
+        <div class="glass-panel rounded-3xl p-5 mb-6" style="border:1px solid rgba(245,158,11,.2);background:rgba(217,119,6,.06);">
+          <div class="flex items-center gap-2 mb-3">
+            <span class="text-base">🔍</span>
+            <span class="text-xs font-black text-amber-400 uppercase tracking-widest">Preview Mode</span>
+            <span class="ml-auto text-[10px] text-slate-500 rounded-full px-2 py-0.5" style="background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.08);">No login required</span>
           </div>
-          <div>
-            <label class="block text-xs font-semibold text-slate-400 mb-1.5 uppercase tracking-wide">Password</label>
-            <div class="relative">
-              <input id="si-pass" type="password" class="inp pr-12" placeholder="Your password" required autocomplete="current-password"/>
-              <button type="button" onclick="togglePass('si-pass','si-eye')" class="absolute right-4 top-1/2 -translate-y-1/2 text-slate-500 hover:text-white transition-colors">
-                <span id="si-eye">👁</span>
-              </button>
-            </div>
-          </div>
-          <div class="flex items-center justify-between">
-            <label class="flex items-center gap-2 text-xs text-slate-400 cursor-pointer">
-              <input type="checkbox" class="accent-emerald w-3.5 h-3.5"/> Remember me
-            </label>
-            <a href="#" class="text-xs text-emerald-mid hover:text-emerald-light">Forgot password?</a>
-          </div>
-          <button type="submit" class="w-full bg-gradient-to-br from-emerald to-emerald-dark text-white font-bold py-3.5 rounded-xl hover:-translate-y-0.5 hover:shadow-[0_0_25px_rgba(16,185,129,.3)] transition-all mt-2">
-            Sign In →
-          </button>
-          <div class="flex items-center gap-4 mt-2">
-            <div class="flex-1 h-px bg-white/7"></div>
-            <span class="text-xs text-slate-500">Social</span>
-            <div class="flex-1 h-px bg-white/7"></div>
-          </div>
+          <p class="text-xs text-slate-400 mb-4 leading-relaxed">Explore the full platform before signing up — see exactly what your experience will look like.</p>
           <div class="grid grid-cols-2 gap-3">
-            <button type="button" class="flex items-center justify-center gap-2 bg-surface1 border border-white/10 hover:border-white/20 text-sm text-white font-medium py-2.5 rounded-xl transition-all"><span>🌐</span>Google</button>
-            <button type="button" class="flex items-center justify-center gap-2 bg-surface1 border border-white/10 hover:border-white/20 text-sm text-white font-medium py-2.5 rounded-xl transition-all"><span>📘</span>Facebook</button>
+            <a href="dashboard.html" class="demo-btn-dash rounded-2xl px-4 py-3 flex items-center gap-3 no-underline" style="text-decoration:none;">
+              <div class="w-8 h-8 rounded-xl flex items-center justify-center flex-shrink-0 text-sm" style="background:rgba(16,185,129,.15);border:1px solid rgba(16,185,129,.25);">📊</div>
+              <div>
+                <div class="text-xs font-bold text-emerald-light leading-tight">User Dashboard</div>
+                <div class="text-[10px] text-slate-500">Submissions &amp; stats</div>
+              </div>
+            </a>
+            <a href="admin.html" class="demo-btn-admin rounded-2xl px-4 py-3 flex items-center gap-3 no-underline" style="text-decoration:none;">
+              <div class="w-8 h-8 rounded-xl flex items-center justify-center flex-shrink-0 text-sm" style="background:rgba(217,119,6,.15);border:1px solid rgba(245,158,11,.25);">⚙️</div>
+              <div>
+                <div class="text-xs font-bold text-amber-400 leading-tight">Admin Panel</div>
+                <div class="text-[10px] text-slate-500">Platform management</div>
+              </div>
+            </a>
           </div>
-        </form>
-      </div>
+        </div>
 
-      <!-- ── Register Panel ── -->
-      <div id="panel-register" class="hidden">
-        <form onsubmit="handleRegister(event)" class="space-y-4">
-          <div class="grid grid-cols-2 gap-3">
-            <div>
-              <label class="block text-xs font-semibold text-slate-400 mb-1.5 uppercase tracking-wide">First Name</label>
-              <input type="text" class="inp" placeholder="Sharmin" required/>
-            </div>
-            <div>
-              <label class="block text-xs font-semibold text-slate-400 mb-1.5 uppercase tracking-wide">Last Name</label>
-              <input type="text" class="inp" placeholder="Rahman" required/>
-            </div>
+        <!-- ══ AUTH CARD ══ -->
+        <div class="glass-panel rounded-3xl p-8" style="box-shadow:0 24px 80px rgba(0,0,0,.45),0 0 0 1px rgba(16,185,129,.07);">
+          <div class="text-center mb-7">
+            <h2 class="font-display font-black text-3xl text-white mb-1.5">Welcome back 👋</h2>
+            <p class="text-sm text-slate-400">Sign in or create your account below</p>
           </div>
-          <div>
-            <label class="block text-xs font-semibold text-slate-400 mb-1.5 uppercase tracking-wide">Email Address</label>
-            <input type="email" class="inp" placeholder="you@example.com" required autocomplete="email"/>
-          </div>
-          <div>
-            <label class="block text-xs font-semibold text-slate-400 mb-1.5 uppercase tracking-wide">Phone Number</label>
-            <div class="flex gap-2">
-              <div class="flex items-center gap-2 bg-surface1 border border-white/10 rounded-xl px-3 text-sm text-slate-400 flex-shrink-0">🇧🇩 +880</div>
-              <input type="tel" class="inp flex-1" placeholder="01XXXXXXXXX" required/>
-            </div>
-          </div>
-          <div>
-            <label class="block text-xs font-semibold text-slate-400 mb-1.5 uppercase tracking-wide">Password</label>
-            <div class="relative">
-              <input id="reg-pass" type="password" class="inp pr-12" placeholder="Create strong password" required autocomplete="new-password" oninput="checkStrength(this.value)"/>
-              <button type="button" onclick="togglePass('reg-pass','reg-eye')" class="absolute right-4 top-1/2 -translate-y-1/2 text-slate-500 hover:text-white transition-colors">
-                <span id="reg-eye">👁</span>
-              </button>
-            </div>
-            <div class="mt-2 flex gap-1">
-              <div id="s1" class="flex-1 h-1 rounded-full bg-surface3 transition-all"></div>
-              <div id="s2" class="flex-1 h-1 rounded-full bg-surface3 transition-all"></div>
-              <div id="s3" class="flex-1 h-1 rounded-full bg-surface3 transition-all"></div>
-              <div id="s4" class="flex-1 h-1 rounded-full bg-surface3 transition-all"></div>
-            </div>
-            <p id="str-label" class="text-[10px] text-slate-500 mt-1 h-4"></p>
-          </div>
-          <label class="flex items-start gap-2 text-xs text-slate-400 cursor-pointer">
-            <input type="checkbox" class="accent-emerald w-3.5 h-3.5 mt-0.5 flex-shrink-0" required/>
-            <span>I agree to the <a href="#" class="text-emerald-mid hover:underline">Terms of Service</a> and <a href="#" class="text-emerald-mid hover:underline">Privacy Policy</a></span>
-          </label>
-          <button type="submit" class="w-full bg-gradient-to-br from-emerald to-emerald-dark text-white font-bold py-3.5 rounded-xl hover:-translate-y-0.5 hover:shadow-[0_0_25px_rgba(16,185,129,.3)] transition-all">
-            Create Account →
-          </button>
-        </form>
-      </div>
 
-      <!-- Trust strip -->
-      <div class="mt-8 pt-6 border-t border-white/7 flex flex-wrap items-center justify-center gap-4">
-        <div class="text-xs text-slate-500 flex items-center gap-1.5"><span class="text-emerald-mid">🔐</span>256-bit SSL</div>
-        <div class="text-xs text-slate-500 flex items-center gap-1.5"><span class="text-emerald-mid">✓</span>ISO 14001</div>
-        <div class="text-xs text-slate-500 flex items-center gap-1.5"><span class="text-emerald-mid">🇧🇩</span>BTRC Compliant</div>
+          <!-- Tabs -->
+          <div class="flex auth-tab-bar rounded-2xl p-1 mb-7">
+            <button id="tab-signin" onclick="switchTab('signin')" class="flex-1 py-2.5 text-sm font-bold rounded-xl border transition-all tab-active">Sign In</button>
+            <button id="tab-register" onclick="switchTab('register')" class="flex-1 py-2.5 text-sm font-bold rounded-xl border transition-all tab-inactive">Create Account</button>
+          </div>
+
+          <!-- Sign In -->
+          <div id="panel-signin">
+            <div class="grid grid-cols-2 gap-2.5 mb-5">
+              <button class="social-btn rounded-xl py-2.5 text-sm font-semibold text-white flex items-center justify-center gap-2">📱 Phone OTP</button>
+              <button class="social-btn rounded-xl py-2.5 text-sm font-semibold text-white flex items-center justify-center gap-2">✉️ Magic Link</button>
+            </div>
+            <div class="flex items-center gap-3 mb-5">
+              <div class="flex-1 neon-divider"></div>
+              <span class="text-xs text-slate-600 uppercase tracking-widest px-2">or email</span>
+              <div class="flex-1 neon-divider"></div>
+            </div>
+            <form onsubmit="handleSignIn(event)" class="space-y-4">
+              <div>
+                <label class="block text-[11px] font-bold text-slate-400 mb-1.5 uppercase tracking-widest">Email Address</label>
+                <input type="email" class="glass-input" placeholder="you@example.com" required autocomplete="email"/>
+              </div>
+              <div>
+                <label class="block text-[11px] font-bold text-slate-400 mb-1.5 uppercase tracking-widest">Password</label>
+                <div class="relative">
+                  <input id="si-pass" type="password" class="glass-input pr-12" placeholder="Your password" required autocomplete="current-password"/>
+                  <button type="button" onclick="togglePass('si-pass')" class="absolute right-4 top-1/2 -translate-y-1/2 text-slate-500 hover:text-emerald-light transition-colors">👁</button>
+                </div>
+              </div>
+              <div class="flex items-center justify-between">
+                <label class="flex items-center gap-2 text-xs text-slate-400 cursor-pointer select-none">
+                  <input type="checkbox" class="accent-emerald w-3.5 h-3.5"/> Remember me
+                </label>
+                <a href="#" class="text-xs text-emerald-mid hover:text-emerald-light transition-colors">Forgot password?</a>
+              </div>
+              <button type="submit" class="btn-primary w-full text-white font-bold py-3.5 rounded-2xl text-sm mt-1">Sign In →</button>
+              <div class="flex items-center gap-3 pt-1">
+                <div class="flex-1 neon-divider"></div>
+                <span class="text-xs text-slate-600">Social</span>
+                <div class="flex-1 neon-divider"></div>
+              </div>
+              <div class="grid grid-cols-2 gap-3">
+                <button type="button" class="social-btn rounded-xl py-2.5 text-sm font-semibold text-white flex items-center justify-center gap-2">🌐 Google</button>
+                <button type="button" class="social-btn rounded-xl py-2.5 text-sm font-semibold text-white flex items-center justify-center gap-2">📘 Facebook</button>
+              </div>
+            </form>
+          </div>
+
+          <!-- Register -->
+          <div id="panel-register" class="hidden">
+            <form onsubmit="handleRegister(event)" class="space-y-4">
+              <div class="grid grid-cols-2 gap-3">
+                <div>
+                  <label class="block text-[11px] font-bold text-slate-400 mb-1.5 uppercase tracking-widest">First Name</label>
+                  <input type="text" class="glass-input" placeholder="Sharmin" required/>
+                </div>
+                <div>
+                  <label class="block text-[11px] font-bold text-slate-400 mb-1.5 uppercase tracking-widest">Last Name</label>
+                  <input type="text" class="glass-input" placeholder="Rahman" required/>
+                </div>
+              </div>
+              <div>
+                <label class="block text-[11px] font-bold text-slate-400 mb-1.5 uppercase tracking-widest">Email</label>
+                <input type="email" class="glass-input" placeholder="you@example.com" required autocomplete="email"/>
+              </div>
+              <div>
+                <label class="block text-[11px] font-bold text-slate-400 mb-1.5 uppercase tracking-widest">Phone</label>
+                <div class="flex gap-2">
+                  <div class="glass-input flex-shrink-0 flex items-center text-slate-300 text-sm" style="width:auto;min-width:0;padding:.8rem .75rem;">🇧🇩 +880</div>
+                  <input type="tel" class="glass-input flex-1" placeholder="01XXXXXXXXX" required/>
+                </div>
+              </div>
+              <div>
+                <label class="block text-[11px] font-bold text-slate-400 mb-1.5 uppercase tracking-widest">Password</label>
+                <div class="relative">
+                  <input id="reg-pass" type="password" class="glass-input pr-12" placeholder="Create strong password" required autocomplete="new-password" oninput="checkStrength(this.value)"/>
+                  <button type="button" onclick="togglePass('reg-pass')" class="absolute right-4 top-1/2 -translate-y-1/2 text-slate-500 hover:text-emerald-light transition-colors">👁</button>
+                </div>
+                <div class="mt-2.5 flex gap-1.5">
+                  <div id="s1" class="flex-1 h-1.5 rounded-full bg-surface3 transition-all duration-300"></div>
+                  <div id="s2" class="flex-1 h-1.5 rounded-full bg-surface3 transition-all duration-300"></div>
+                  <div id="s3" class="flex-1 h-1.5 rounded-full bg-surface3 transition-all duration-300"></div>
+                  <div id="s4" class="flex-1 h-1.5 rounded-full bg-surface3 transition-all duration-300"></div>
+                </div>
+                <p id="str-label" class="text-[10px] text-slate-500 mt-1 h-4"></p>
+              </div>
+              <label class="flex items-start gap-2.5 text-xs text-slate-400 cursor-pointer">
+                <input type="checkbox" class="accent-emerald w-3.5 h-3.5 mt-0.5 flex-shrink-0" required/>
+                <span>I agree to the <a href="#" class="text-emerald-mid hover:text-emerald-light">Terms of Service</a> and <a href="#" class="text-emerald-mid hover:text-emerald-light">Privacy Policy</a></span>
+              </label>
+              <button type="submit" class="btn-primary w-full text-white font-bold py-3.5 rounded-2xl text-sm">Create Account →</button>
+            </form>
+          </div>
+        </div><!-- /auth card -->
+
+        <!-- Trust badges -->
+        <div class="mt-5 flex flex-wrap items-center justify-center gap-2">
+          <div class="trust-badge"><span class="text-emerald-mid">🔐</span> 256-bit SSL</div>
+          <div class="trust-badge"><span class="text-emerald-mid">✓</span> ISO 14001</div>
+          <div class="trust-badge"><span class="text-emerald-mid">🇧🇩</span> BTRC Compliant</div>
+          <div class="trust-badge"><span class="text-emerald-mid">⚡</span> Instant Payout</div>
+        </div>
+
       </div>
     </div>
-  </div>
-</div>
+  </div><!-- /main layout -->
 
 <script>
 function switchTab(tab) {
-  const signin   = document.getElementById('panel-signin');
+  const signin = document.getElementById('panel-signin');
   const register = document.getElementById('panel-register');
-  const tsi      = document.getElementById('tab-signin');
-  const treg     = document.getElementById('tab-register');
+  const tsi = document.getElementById('tab-signin');
+  const treg = document.getElementById('tab-register');
   if (tab === 'signin') {
     signin.classList.remove('hidden'); register.classList.add('hidden');
-    tsi.classList.add('tab-active'); tsi.classList.remove('tab-inactive');
-    treg.classList.add('tab-inactive'); treg.classList.remove('tab-active');
+    tsi.className  = 'flex-1 py-2.5 text-sm font-bold rounded-xl border transition-all tab-active';
+    treg.className = 'flex-1 py-2.5 text-sm font-bold rounded-xl border transition-all tab-inactive';
   } else {
     register.classList.remove('hidden'); signin.classList.add('hidden');
-    treg.classList.add('tab-active'); treg.classList.remove('tab-inactive');
-    tsi.classList.add('tab-inactive'); tsi.classList.remove('tab-active');
+    treg.className = 'flex-1 py-2.5 text-sm font-bold rounded-xl border transition-all tab-active';
+    tsi.className  = 'flex-1 py-2.5 text-sm font-bold rounded-xl border transition-all tab-inactive';
   }
 }
-function togglePass(inputId, eyeId) {
+function togglePass(inputId) {
   const inp = document.getElementById(inputId);
   inp.type = inp.type === 'password' ? 'text' : 'password';
 }
@@ -253,22 +357,16 @@ function checkStrength(val) {
   if (/[A-Z]/.test(val)) score++;
   if (/[0-9]/.test(val)) score++;
   if (/[^A-Za-z0-9]/.test(val)) score++;
-  const labels = ['','Weak','Fair','Good','Strong'];
-  const classes = ['','str-weak','str-fair','str-good','str-strong'];
+  const labels  = ['', 'Weak', 'Fair', 'Good', 'Strong'];
+  const classes = ['', 'str-weak', 'str-fair', 'str-good', 'str-strong'];
   for (let i = 1; i <= 4; i++) {
     const el = document.getElementById('s' + i);
-    el.className = 'flex-1 h-1 rounded-full transition-all ' + (i <= score ? classes[score] : 'bg-surface3');
+    el.className = 'flex-1 h-1.5 rounded-full transition-all duration-300 ' + (i <= score ? classes[score] : 'bg-surface3');
   }
-  document.getElementById('str-label').textContent = val.length ? labels[score] || '' : '';
+  document.getElementById('str-label').textContent = val.length ? (labels[score] || '') : '';
 }
-function handleSignIn(e) {
-  e.preventDefault();
-  window.location.href = 'dashboard.html';
-}
-function handleRegister(e) {
-  e.preventDefault();
-  window.location.href = 'dashboard.html';
-}
+function handleSignIn(e) { e.preventDefault(); window.location.href = 'dashboard.html'; }
+function handleRegister(e) { e.preventDefault(); window.location.href = 'dashboard.html'; }
 </script>
 </body>
 </html>
